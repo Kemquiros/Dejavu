@@ -1,0 +1,38 @@
+html{
+  background-image: url("../img/back-flame.gif");
+  background-repeat:repeat;
+}
+.contenedor-principal{
+  background-image: url("../img/fondo.jpg");
+  height: 100vh;
+}
+.contenedor-logo{
+  margin-top: 4vh;
+  margin-bottom: 2vh;
+  width: 100%;
+}
+.contenedor-logo img{
+  width: inherit;
+}
+.img-ico{
+  margin-top: 4vh;
+  width: inherit;
+}
+.img-ico-card{
+  width: inherit;
+}
+#collapseIco .card{
+  background-color: rgba(0, 0, 0, 0.8);
+  overflow: auto;
+}
+.contenedor-formulario{
+  background-color: rgba(0, 0, 0, 0.6);  
+  height: 40vh;
+  width: 100%;  
+}
+#ico{
+ display: none;
+}
+.label-propio{
+  color: darkred;
+}

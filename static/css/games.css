@@ -1,0 +1,43 @@
+html{
+  background-image: url("../img/back-flame.gif");
+  background-repeat:repeat;
+}
+.contenedor-principal{
+    background-image: url("../img/fondo.jpg");
+    height: 100vh;
+}
+.contenedor-logo{
+  margin-top: 4vh;
+  margin-bottom: 2vh;
+  width: 100%;
+}
+.contenedor-logo img{
+  width: inherit;
+}
+#img-ico{
+  margin: 5px;
+  width: 10vw;
+}
+.img-ico{
+  margin: 5px;
+  width: 100%;
+}
+#name{
+  margin-top: 33%;
+}
+.tabla{
+  background-color: rgba(0, 0, 0, 0.6); 
+}
+.btn-accion{
+  width: 60%;
+  margin: 4px;
+}
+.img-raza{
+  width: inherit;
+}
+.label-propio{
+  color: darkred;
+}
+.label-propio{
+  color: #7c795d; font-family: 'Trocchi', serif; font-size: 45px; font-weight: normal; line-height: 48px; margin: 0;
+}

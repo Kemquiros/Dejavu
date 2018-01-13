@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dejavu: configurar nuevo juego</title>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>  
+    <link href="static/css/games.css" rel="stylesheet">     
+  </head>
+  
+  <body> 
+    <div class="row contenedor-principal"> 
+      <div class="col-lg-12">
+        <!-- Logo -->
+        <div class="row">
+          <div class="col-lg-4">
+          </div>
+          <div class="col-lg-4">
+            <div class="contenedor-logo">
+              <img src="static/img/logo.png">
+            </div>           
+          </div>      
+          <div class="col-lg-4">
+          </div>        
+        </div>
+        <!-- Icono y nombre -->
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="row">
+              <div class="col-lg-4">
+                <img id="img-ico" src="static/img/ico/{{ icono }}.png">
+              </div>   
+              <div class="col-lg-4">
+                <div id="name" class="alert alert-danger">
+                  <b>{{ nombre }}</b>
+                </div>                
+              </div> 
+              <div class="col-lg-4"></div>
+            </div>
+          </div>       
+          <div class="col-lg-6">
+            <div class="row">
+                <div class="col-lg-6">
+                  <form action="/join-game" method="post">
+                  <div class="form-group">
+                    <label class="label-propio" for="nombre"><h4>Escoger Raza</h4></label>
+                    <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="raza" name="raza">
+                      <option selected>Elegir...</option>
+                      {% for key,raza in razas|dictsort %}
+                        <option value="{{ key }}">{{raza.nombre}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>                
+                </div>
+                <div class="col-lg-6">
+                  <div class="text-center align-middle">
+                      <button type="submit" class="btn btn-outline-danger btn-accion">Estoy listo</button>
+                    </form>
+                  <form action="/cancel-game" method="post">
+                    <button type="submit" class="btn btn-outline-danger btn-accion">Salir</button>
+                  </form>
+                  </div>              
+                </div>
+            </div>            
+          </div>         
+        </div> 
+        <!-- Descripcion de razas -->
+        <div class="row">
+          <div class="col-lg-2">
+          </div>
+          <div class="col-lg-8 tabla">
+            
+            <div id="accordion" role="tablist" aria-multiselectable="true">
+              <!-- razas.iteritems()-->
+              {% for key,raza in razas|dictsort %}
+              <div class="card">
+                <div class="card-header" role="tab" id="heading{{key}}">
+                  <h5 class="mb-0">
+                    {% if key == "0" %}
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{key}}" aria-expanded="true" aria-controls="collapse{{key}}">
+                    {% else %}
+                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{key}}" aria-expanded="false" aria-controls="collapse{{key}}">  
+                    {% endif %}
+                      {{ raza.nombre }}
+                    </a>
+                  </h5>
+                </div>
+                {% if key == "0" %}
+                <div id="collapse{{key}}" class="collapse show" role="tabpanel" aria-labelledby="heading{{key}}">
+                {% else %}
+                <div id="collapse{{key}}" class="collapse" role="tabpanel" aria-labelledby="heading{{key}}">
+                {% endif %}
+                  <div><!-- Aqui va la imagen y los atributos --></div>
+                  <div class="card-block">
+                    <div class="row">
+                      <div class="col-lg-4">
+                        {% if raza.nombre == "Vampiro" %}
+                          <img class="img-raza" src="static/img/tile/selection/Vampiro.png">
+                        {% elif raza.nombre == "Hombre Lobo" %}
+                          <img class="img-raza" src="static/img/tile/selection/Hombre_Lobo.png">
+                        {% elif raza.nombre == "Demiurgo" %}
+                          <img class="img-raza" src="static/img/tile/selection/Demiurgo.png">
+                        {% elif raza.nombre == "Cazador" %}
+                          <img class="img-raza" src="static/img/tile/selection/Cazador.png">
+                        {% elif raza.nombre == "Hechizero" %}
+                          <img class="img-raza" src="static/img/tile/selection/Hechizero.png">
+                        {% elif raza.nombre == "Nigromante" %}
+                          <img class="img-raza" src="static/img/tile/selection/Nigromante.jpg">
+                        {% endif %}
+                      </div>
+                      <div class="col-lg-8">
+                        <!-- Atributos -->
+                        Ataque<br>
+                         <div class="progress">
+                           <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar" 
+                           aria-valuenow="{{ raza.ataque }}" aria-valuemin="0" aria-valuemax="6" style="width:{{ (raza.ataque/6)*100 |int }}%">
+                             {{ raza.ataque }}
+                           </div>
+                        </div>  
+
+                         Destreza<br>
+                         <div class="progress">
+                           <div class="progress-bar progress-bar-striped bg-info progress-bar-animated" role="progressbar"
+              aria-valuenow="{{ raza.destreza }}" aria-valuemin="0" aria-valuemax="6" style="width:{{ (raza.destreza/6)*100 |int }}%">
+                             {{ raza.destreza }}
+                           </div>              
+                        </div> 
+
+                         Daño<br>
+                         <div class="progress">
+                           <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar"
+              aria-valuenow="{{ raza.dano }}" aria-valuemin="0" aria-valuemax="6" style="width:{{ (raza.dano/6)*100 |int }}%">
+                             {{ raza.dano }}
+                           </div>              
+                        </div> 
+
+                         Defensa<br>
+                         <div class="progress">
+                           <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar"
+              aria-valuenow="{{ raza.defensa }}" aria-valuemin="0" aria-valuemax="6" style="width:{{ (raza.defensa/6)*100 |int }}%">
+                             {{ raza.defensa }}
+                           </div>              
+                        </div>
+
+                         Vida<br>
+                         <div class="progress">
+                           <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar"
+              aria-valuenow="{{ raza.vida }}" aria-valuemin="0" aria-valuemax="42" style="width:{{ (raza.vida/6)*100 |int }}%">
+                             {{ raza.vida*7 }}
+                           </div>              
+                        </div>    
+
+                         Movimiento<br>
+                         <div class="progress">
+                           <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+              aria-valuenow="{{ raza.movimiento }}" aria-valuemin="0" aria-valuemax="6" style="width:{{ (raza.movimiento/6)*100 |int }}%">
+                             {{ raza.movimiento }}
+                           </div>              
+                        </div>             
+
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-2"></div>
+                      <div class="col-lg-8">
+                        <blockquote class="blockquote">
+                          <p class="mb-0">
+                            {{ raza.descripcion }}
+                          </p>
+                          <footer class="blockquote-footer">
+                            Anónimo
+                          </footer>
+                        </blockquote>                        
+                      </div>  
+                      <div class="col-lg-2"></div>
+                    </div>                                            
+                  </div>
+                </div>
+              </div> 
+              {% endfor %}
+            </div>
+            
+          </div>
+          <div class="col-lg-2">            
+          </div>          
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

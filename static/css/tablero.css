@@ -1,0 +1,53 @@
+body{
+  background-image: url("../img/Bosque.jpg");
+  background-size: cover;
+}
+.panel{
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 25px;
+}
+.panel-nombre{
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 25px;
+  color: firebrick;
+}
+.contenedor-canvas{
+  position: relative;
+  height: 80vh;
+  overflow:auto;
+}
+#layer1{
+  position: absolute;
+  left: 0; top: 0;
+  border:10px solid #000000;
+  z-index: 0;
+}
+#layer2{
+  position: absolute;
+  left: 0; top: 0;
+  border:10px solid #000000;
+  z-index: 1;
+}
+#layer3{
+  position: absolute;
+  left: 0; top: 0;
+  border:10px solid #000000;
+  z-index: 2;
+}
+#img1{
+  height: 30vh;
+}
+.btn-mover{
+  width: 100%;
+}
+.btn-atacar{
+  width: 100%;
+  margin-top: 5vh;
+}
+.fila-mov{
+  margin-top: 5vh;
+}
+.col-mov{
+  padding-left: inherit;
+  padding-right: inherit;
+}

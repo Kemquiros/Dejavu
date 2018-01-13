@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dejavu: sala de espera</title>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>  
+    <link href="static/css/games.css" rel="stylesheet"> 
+    <script src="static/js/room.js"></script>
+  </head>
+  
+  <body onload="initClock()">   
+    <div class="row contenedor-principal"> 
+      <div class="col-lg-12">
+        <!-- Logo -->
+        <div class="row">
+          <div class="col-lg-4">
+          </div>
+          <div class="col-lg-4">
+            <div class="contenedor-logo">
+              <img src="static/img/logo.png">
+            </div>           
+          </div>      
+          <div class="col-lg-4">
+          </div>        
+        </div>
+        <!-- Icono y nombre -->
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="row">
+              <div class="col-lg-4">
+                <img id="img-ico" src="static/img/ico/{{ icono }}.png">
+              </div>   
+              <div class="col-lg-4">
+                <div id="name" class="alert alert-danger">
+                  <b>{{ nombre }}</b>
+                </div>                
+              </div> 
+              <div class="col-lg-4"></div>
+            </div>
+          </div>       
+          <div class="col-lg-6">
+            <div class="text-center align-middle">
+              {% if master == True %}
+              <form action="/start" method="get">
+                <button type="submit" class="btn btn-outline-danger">Comenzar</button>
+              </form>   
+              <form action="/cancel-game" method="get">
+                <button type="submit" class="btn btn-outline-danger">Cancelar Partida</button>
+              </form>
+              {% else %}
+              <form action="/leave-game" method="get">
+                <button type="submit" class="btn btn-outline-danger">Abandonar Partida</button>
+              </form>              
+              {% endif %}
+            </div>
+          </div>         
+        </div>
+        <!-- Tabla con jugadores -->
+        <div class="row">
+          <div class="col-lg-2">
+          </div>
+          <div class="col-lg-8 tabla">
+            <table class="table table-hover table-inverse">
+              <thead>
+                <tr>
+                  <th> </th>
+                  <th>Jugador</th>
+                  <th>Raza</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+              </tbody>
+            </table>
+          </div>      
+          <div class="col-lg-2">
+          </div>         
+        </div>    
+      </div>
+    </div>
+  </body>
+</html>

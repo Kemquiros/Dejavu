@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dejavu: el juego de nosotros (2 años)</title>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    
+    <link href="static/css/tablero.css" rel="stylesheet"> 
+    <script src="static/js/distribution.js"></script>
+    <script src="static/js/tiles.js"></script>
+    <script src="static/js/morphological.js"></script>
+    <script src="static/js/board.js"></script>
+    
+  </head>
+  
+  <body onload="crearTablero()">  
+    <!-- Fila del titulo -->
+    <div class="row" style="text-align:center">      
+      <div class="col-lg-12">
+        <h1>DEJAVU</h1>
+        <h2>Turno #</h2>
+      </div>
+    </div> 
+    
+    <!-- Fila del contenido-->
+    <div class="row" style="text-align:center">
+      
+      <!-- Izquierda -->
+      <div class="col-lg-4 panel">
+        
+        <!-- Fila superior  -->
+        <div class="row">
+          <div class="col-lg-12 panel-nombre">
+            <h3>Alukard - Vampiro</h3>
+          </div>
+        </div>
+        
+        <!-- Fila media -->
+        <div class="row">
+          <div class="col-lg-4"></div>
+          <div class="col-lg-4">
+            <img id="img1" src="assets/img/Vampiro.png" class="rounded-circle">
+          </div>
+          <div class="col-lg-4"></div>
+        </div>
+        
+        <!-- Fila inferior  -->
+        <div class="row">
+          
+          <!-- Atributos -->
+          <div class="col-lg-6">
+            Ataque<br>
+             <div class="progress">
+               <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar" 
+               aria-valuenow="3" aria-valuemin="0" aria-valuemax="6" style="width:50%">
+                 3
+               </div>
+            </div>  
+            
+             Destreza<br>
+             <div class="progress">
+               <div class="progress-bar progress-bar-striped bg-info progress-bar-animated" role="progressbar"
+  aria-valuenow="4" aria-valuemin="0" aria-valuemax="6" style="width:66%">
+                 4
+               </div>              
+            </div> 
+            
+             Daño<br>
+             <div class="progress">
+               <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar"
+  aria-valuenow="4" aria-valuemin="0" aria-valuemax="6" style="width:66%">
+                 4
+               </div>              
+            </div> 
+            
+             Defensa<br>
+             <div class="progress">
+               <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar"
+  aria-valuenow="3" aria-valuemin="0" aria-valuemax="6" style="width:50%">
+                 3
+               </div>              
+            </div>
+            
+             Vida<br>
+             <div class="progress">
+               <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar"
+  aria-valuenow="42" aria-valuemin="0" aria-valuemax="42" style="width:100%">
+                 42
+               </div>              
+            </div>    
+            
+             Movimiento<br>
+             <div class="progress">
+               <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+  aria-valuenow="2" aria-valuemin="0" aria-valuemax="6" style="width:33%">
+                 2
+               </div>              
+            </div>             
+            
+          </div>
+          
+          <!-- Botones movimiento -->
+          <div class="col-lg-6">
+            
+            <!-- Fila 1 -->
+            <div class="row fila-mov">
+              <div class="col-lg-4 col-mov">
+                <button type="button" class="btn btn-outline-warning btn-mover">&#8662;</button>
+              </div>
+              <div class="col-lg-4 col-mov">
+                <button type="button" class="btn btn-outline-warning btn-mover">&#8657;</button>
+              </div>
+              <div class="col-lg-4 col-mov">
+                <button type="button" class="btn btn-outline-warning btn-mover">&#8663;</button>
+              </div>
+            </div>
+            
+            <!-- Fila 2 -->
+            <div class="row">
+              <div class="col-lg-4 col-mov">
+                <button type="button" class="btn btn-outline-warning btn-mover">&#8656;</button>
+              </div>
+              <div class="col-lg-4 col-mov">
+                <!--
+                <button type="button" class="btn btn-outline-warning btn-mover">&nbsp;</button>
+                -->
+              </div>
+              <div class="col-lg-4 col-mov">
+                <button type="button" class="btn btn-outline-warning btn-mover">&#8658;</button>
+              </div>
+            </div>     
+            
+            <!-- Fila 3 -->
+            <div class="row">
+              <div class="col-lg-4 col-mov">
+                <button type="button" class="btn btn-outline-warning btn-mover">&#8665;</button>
+              </div>
+              <div class="col-lg-4 col-mov">
+                <button type="button" class="btn btn-outline-warning btn-mover">&#8659;</button>
+              </div>
+              <div class="col-lg-4 col-mov">
+                <button type="button" class="btn btn-outline-warning btn-mover">&#8664;</button>
+              </div>
+            </div>   
+            
+            <!-- Fila 4 -->
+            <div class="row">
+              <div class="col-lg-12">
+                <button type="button" class="btn btn-danger btn-atacar">Atacar</button>
+              </div>           
+            </div>   
+            
+          </div>
+        </div>
+      </div>
+      
+      <!-- Medio -->
+      <div class="col-lg-4 contenedor-canvas">
+         <canvas id="layer1">           
+        </canvas> 
+         <canvas id="layer2">           
+        </canvas>         
+         <canvas id="layer3">           
+        </canvas>         
+      </div>
+      
+      <!-- Derecha-->
+      <div class="col-lg-4 panel">
+      </div>
+    </div>
+    
+  </body>
+</html>
