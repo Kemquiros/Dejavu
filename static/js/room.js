@@ -21,6 +21,11 @@ function getPlayers(){
         $("tbody").append(row);
       });
   });  
+  jQuery.get("/players", function(data, status){
+    //Actualiza el numero de jugadores
+    $("#num").text(data.nro+" / "+data.nroMax)
+  }
+
 }
 function initClock(){
   var reloj = setInterval(getPlayers, 2000);  

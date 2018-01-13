@@ -29,20 +29,21 @@
         </div>
         <!-- Icono y nombre -->
         <div class="row">
-          <div class="col-lg-6">
+          <div class="col-lg-2">
+          </div>
+          <div class="col-lg-4">
             <div class="row">
               <div class="col-lg-4">
                 <img id="img-ico" src="static/img/ico/{{ icono }}.png">
               </div>   
-              <div class="col-lg-4">
-                <div id="name" class="alert alert-danger">
-                  <b>{{ nombre }}</b>
+              <div class="col-lg-8 text-center">
+                <div id="name" class="text-center">
+                  <label class="label-nombre">{{ nombre }}</label>
                 </div>                
-              </div> 
-              <div class="col-lg-4"></div>
+              </div>               
             </div>
-          </div>       
-          <div class="col-lg-6">
+          </div>      
+          <div class="col-lg-4">
             <div class="row">
                 <div class="col-lg-6">
                   <form action="/join-game" method="post">
@@ -66,7 +67,9 @@
                   </div>              
                 </div>
             </div>            
-          </div>         
+          </div>  
+          <div class="col-lg-2">
+          </div>
         </div> 
         <!-- Descripcion de razas -->
         <div class="row">

@@ -61,7 +61,7 @@ def get_players():
   if 'token' in session:
     #Si la partida no ha comenzado
     if controller.get_state() == "pendiente":
-      #retorna a los jugadores   
+      #retorna a los jugadores        
       return jsonify(list(jugador.toJSON() for jugador in controller.get_players().values()))
     elif controller.get_state() == "activa":
     #Si ya comenzo
@@ -69,15 +69,18 @@ def get_players():
       return redirect("/board", code=302)
   return redirect("/games", code=302)
 
+@app.route('/nro-players',methods=['GET'])
+def get_players():
+  if 'token' in session:
+    partida = self.dejavu.getPartida(session['partida'])
+    return jsonify(list({"nro":partida.numeroJugadores,"nroMax":partida.numeroJugadoresMax}))
+  return redirect("/games", code=302)
+
 @app.route('/room',methods=['GET'])
 def get_room():
   if 'token' in session:
     #Si el jugador es el master
     isMaster = controller.is_master()
-    print "----------------"
-    print "isMaster:"
-    print isMaster
-    print "----------------"
     players = controller.get_players()
     return render_template('room-game.html',nombre=session['name'],icono=session['icon'], master=isMaster)
   else:

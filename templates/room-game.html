@@ -30,35 +30,38 @@
         </div>
         <!-- Icono y nombre -->
         <div class="row">
-          <div class="col-lg-6">
+          <div class="col-lg-2">
+          </div>
+          <div class="col-lg-4">
             <div class="row">
               <div class="col-lg-4">
                 <img id="img-ico" src="static/img/ico/{{ icono }}.png">
               </div>   
-              <div class="col-lg-4">
-                <div id="name" class="alert alert-danger">
-                  <b>{{ nombre }}</b>
+              <div class="col-lg-8 text-center">
+                <div id="name" class="text-center">
+                  <label class="label-nombre">{{ nombre }}</label>
                 </div>                
-              </div> 
-              <div class="col-lg-4"></div>
+              </div>               
             </div>
           </div>       
-          <div class="col-lg-6">
+          <div class="col-lg-4">
             <div class="text-center align-middle">
               {% if master == True %}
               <form action="/start" method="get">
-                <button type="submit" class="btn btn-outline-danger">Comenzar</button>
+                <button type="submit" class="btn btn-outline-danger btn-accion">Comenzar</button>
               </form>   
               <form action="/cancel-game" method="get">
-                <button type="submit" class="btn btn-outline-danger">Cancelar Partida</button>
+                <button type="submit" class="btn btn-outline-danger btn-accion">Cancelar Partida</button>
               </form>
               {% else %}
               <form action="/leave-game" method="get">
-                <button type="submit" class="btn btn-outline-danger">Abandonar Partida</button>
+                <button type="submit" class="btn btn-outline-danger btn-accion">Abandonar Partida</button>
               </form>              
               {% endif %}
             </div>
-          </div>         
+          </div>  
+          <div class="col-lg-2">
+          </div>          
         </div>
         <!-- Tabla con jugadores -->
         <div class="row">
@@ -68,7 +71,7 @@
             <table class="table table-hover table-inverse">
               <thead>
                 <tr>
-                  <th> </th>
+                  <th id="num"></th>
                   <th>Jugador</th>
                   <th>Raza</th>
                 </tr>
