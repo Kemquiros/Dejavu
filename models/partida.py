@@ -8,7 +8,7 @@ class Partida:
     self.creador = master
     self.nombre = name
     self.numeroJugadoresMax = nroJugadores
-    self.numeroJugadores = 1
+    self.numeroJugadores = 0
     self.jugadores = {}
     self.mapa = None
     self.ordenTurno = None
@@ -18,6 +18,7 @@ class Partida:
   def addJugador(self,jugador):
     if not jugador.nombre in self.jugadores:
       self.jugadores[jugador.nombre] = jugador
+      self.numeroJugadores = self.numeroJugadores + 1
       
   def getJugador(self,nombre):
     if nombre in self.jugadores:
@@ -26,7 +27,11 @@ class Partida:
   
   def delJugador(self,nombre):
     if nombre in self.jugadores:
-      del self.jugadores[nombre]    
+      del self.jugadores[nombre]   
+      self.numeroJugadores = self.numeroJugadores - 1
+      
+  def puedeAddJugador(self):
+    return self.numeroJugadores < self.numeroJugadoresMax
       
 
     

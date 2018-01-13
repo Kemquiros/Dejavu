@@ -82,8 +82,13 @@
                   <td> {{ partida.numeroJugadores }} / {{ partida.numeroJugadoresMax }} </td>
                   <td> {{ partida.estado }} </td>
                   {% if partida.estado == "pendiente" %}
-                  <td> <button type="button" class="btn btn-outline-success">Unirse</button> </td>
-                  {% elif partida.estado == "activa" %}
+                  <td> 
+                    <form action="/join-player" method="post">
+                      <input type="hidden" id="partida" name="partida" value="{{ partida.nombre }}">
+                      <button type="submit" class="btn btn-outline-success">Unirse</button> 
+                    </form>
+                  </td>
+                  {% elif partida.estado == "activa" and partida.puedeAddJugador()%}
                   <td> <button type="button" class="btn btn-outline-info">Ver</button> </td>
                   {% endif %}
                 </tr>

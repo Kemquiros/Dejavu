@@ -43,9 +43,13 @@ class Controller:
       master = self.dejavu.getJugador(session['token'])
       nuevaPartida = Partida(numeroJ,master,nombreP)
       nuevaPartida.estado = "pendiente"
-      self.dejavu.addPartida(nuevaPartida);
-      session['partida'] = nombreP      
-  
+      self.dejavu.addPartida(nuevaPartida)
+      session['partida'] = nombreP  
+      
+  def join_player(self,request):
+    nombreP = request.form['partida']
+    session['partida'] = nombreP
+    
   def join_game(self,request):
     partida = self.dejavu.getPartida(session['partida'])
     jugador = self.dejavu.getJugador(session['token']) 
@@ -54,8 +58,13 @@ class Controller:
     raza = self.dejavu.razas[str(idRaza)]["nombre"]
     avatar = get_avatar(raza)
     
-    jugador.setAvatar(avatar)
-    partida.addJugador(jugador)
+    if partida.puedeAddJugador():
+      jugador.setAvatar(avatar)
+      partida.addJugador(jugador)
+      return True
+    
+    session['partida'] = None
+    return False
         
       
   def is_master(self):

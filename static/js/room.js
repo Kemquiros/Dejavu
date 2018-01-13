@@ -21,12 +21,12 @@ function getPlayers(){
         $("tbody").append(row);
       });
   });  
-  jQuery.get("/players", function(data, status){
+  jQuery.get("/nro-players", function(data, status){
     //Actualiza el numero de jugadores
-    $("#num").text(data.nro+" / "+data.nroMax)
-  }
-
+    $("#num").text(data["nro"]+" / "+data["nroMax"])
+  });
 }
+
 function initClock(){
   var reloj = setInterval(getPlayers, 2000);  
   $(window).on('hashchange', function(e){

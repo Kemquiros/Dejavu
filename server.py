@@ -21,34 +21,41 @@ controller = Controller(dejavu)
 
 @app.route('/')
 def index():
-  return render_template('index.html')
+   return render_template('index.html')
   
 @app.route('/login', methods=['POST'])
 def do_login():   
-  if controller.sign_in(request):
-    return redirect("/games", code=302)
-  return redirect("/", code=302)
+   if controller.sign_in(request): 
+      return redirect("/games", code=302)
+   return redirect("/", code=302)
     
 
 @app.route('/games', methods=['GET'])
 def get_games():
-  if 'token' in session:
-    return render_template('games.html', nombre=session['name'],icono=session['icon'],partidas=dejavu.partidas)
-  return redirect("/", code=302)
+   if 'token' in session:
+      return render_template('games.html', nombre=session['name'],icono=session['icon'],partidas=dejavu.partidas)
+   return redirect("/", code=302)
 
 @app.route('/new-game', methods=['GET'])
 def get_new_game():
-  if 'token' in session:
-    return render_template('new-game.html', nombre=session['name'],icono=session['icon'])
-  return redirect("/games", code=302)
+   if 'token' in session:
+      return render_template('new-game.html', nombre=session['name'],icono=session['icon'])
+   return redirect("/games", code=302)
 
 @app.route('/new-game', methods=['POST'])
 def new_game():
-  if 'token' in session:
-    controller.new_game(request)
-    return render_template('join-game.html',nombre=session['name'],icono=session['icon'],razas=dejavu.razas)
-  return redirect("/games", code=302)
+   if 'token' in session:
+      controller.new_game(request)
+      return render_template('join-game.html',nombre=session['name'],icono=session['icon'],razas=dejavu.razas)
+   return redirect("/games", code=302)
 
+@app.route('/join-player', methods=['POST'])
+def join_player():
+  if 'token' in session:
+    controller.join_player(request)
+    return render_template('join-game.html',nombre=session['name'],icono=session['icon'],razas=dejavu.razas)    
+  return redirect("/games", code=302)
+                                  
 @app.route('/join-game',methods=['POST'])
 def join_game():
   if request.method == 'POST':
@@ -66,15 +73,19 @@ def get_players():
     elif controller.get_state() == "activa":
     #Si ya comenzo
     #redirige a los jugadores al tablero
-      return redirect("/board", code=302)
+      return render_template("board.html")
   return redirect("/games", code=302)
 
 @app.route('/nro-players',methods=['GET'])
-def get_players():
+def get_nro_players():
   if 'token' in session:
-    partida = self.dejavu.getPartida(session['partida'])
-    return jsonify(list({"nro":partida.numeroJugadores,"nroMax":partida.numeroJugadoresMax}))
+    partida = dejavu.getPartida(session['partida'])
+    return jsonify({"nro":partida.numeroJugadores,"nroMax":partida.numeroJugadoresMax})
   return redirect("/games", code=302)
+ 
+@app.route('/state',methods=['GET'])
+def get_state():
+ return jsonify({"state":controller.get_state()})
 
 @app.route('/room',methods=['GET'])
 def get_room():
