@@ -34,9 +34,12 @@ class Partida:
     return self.numeroJugadores < self.numeroJugadoresMax
    
   def toJSON(self):
+   creatorName = None
+   if self.creador is None:
+     creatorName = self.creador.nombre
    return {
     "inicioPartida" : self.getTime(),
-    "creador" : self.creador.nombre,
+    "creador" : creatorName,
     "nombre" : self.nombre,
     "numeroJugadoresMax" : self.numeroJugadoresMax,
     "numeroJugadores" : self.numeroJugadores,
