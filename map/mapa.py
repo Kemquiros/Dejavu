@@ -19,6 +19,8 @@ class Mapa:
     self.nroOceanosMax = (nroJugadores/4)+1
     self.nroRiosMax = (nroJugadores/2)+1
     self.mapa = np.zeros((nroFilas,nroColumnas))
+    self.crearMapa()
+    
   def crearMapa(self):
     crearPrado()
     crearOceano()

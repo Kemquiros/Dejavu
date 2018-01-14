@@ -1,4 +1,5 @@
 import time
+import random
 
 class Partida:
   
@@ -11,9 +12,24 @@ class Partida:
     self.numeroJugadores = 0
     self.jugadores = {}
     self.mapa = None
+    self.turnoActual = None
     self.ordenTurno = None
     self.turno = 0
     self.estado = None
+    
+  def crearMapa(self):
+    self.mapa = Mapa(numeroJugadores)
+    
+  def nuevoTurno(self):
+     self.turno = self.turno + 1
+     self.turnoActual = 0
+     self.ordenTurno = []
+     llaves = list[jugadores.keys()]
+     while(len(self.ordenTurno)<len(llaves)):
+       nuevo = random.randint(0, len(llaves)-1)
+       if not llaves[nuevo] in self.ordenTurno:
+         self.ordenTurno.append(llaves[nuevo])
+       
   
   def addJugador(self,jugador):
     if not jugador.nombre in self.jugadores:

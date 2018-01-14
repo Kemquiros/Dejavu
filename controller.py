@@ -120,8 +120,10 @@ class Controller:
     return None
   
   def start(self):
-    partida = self.dejavu.getPartida(session['partida'])
-    partida.estado = "activa"
+    partida = self.dejavu.getPartida(session['partida'])        
+    partida.estado = "activa"    
+    partida.crearMapa()
+    partida.nuevoTurno()
     
 def get_avatar(raza):
   avatar = None
