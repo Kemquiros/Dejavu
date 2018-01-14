@@ -107,8 +107,11 @@ def join_game():
 
 @app.route('/players',methods=['GET'])
 def get_players():
-  if 'token' in session:    
-   return jsonify(list(jugador.toJSON() for jugador in controller.get_players().values()))
+  if 'token' in session:   
+     jugadores = controller.get_players()
+     if jugadores is not None:
+       return jsonify(list(jugador.toJSON() for jugador in controller.get_players().values()))
+  return None
 
 @app.route('/nro-players',methods=['GET'])
 def get_nro_players():

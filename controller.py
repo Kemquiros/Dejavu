@@ -98,20 +98,25 @@ class Controller:
   def is_master(self):
     if 'partida' in session:
       partida = self.dejavu.getPartida(session['partida'])
-      if session['token'] == partida.creador.token:
-        return True
+      if partida is not None:
+        if session['token'] == partida.creador.token:
+          return True
     return False
   
   def get_players(self):
-    partida = self.dejavu.getPartida(session['partida'])
-    return partida.jugadores
+    if 'partida' in session:
+      partida = self.dejavu.getPartida(session['partida'])
+      if partida is not None:
+        return partida.jugadores
+    return None
   
   def get_state(self):
-    partida = self.dejavu.getPartida(session['partida'])
-    if partida is not None:
-      return partida.estado 
-    else:
-      return "no existe"
+    if 'partida' in session:
+      partida = self.dejavu.getPartida(session['partida'])
+      if partida is not None:
+        return partida.estado 
+      else:
+        return "no existe"
     return None
   
   def start(self):
