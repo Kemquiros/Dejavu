@@ -13,6 +13,7 @@ html{
 }
 .contenedor-logo img{
   width: inherit;
+  cursor: pointer; 
 }
 #img-ico{
   margin: 5px;

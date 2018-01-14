@@ -61,9 +61,11 @@
                   <div class="text-center align-middle">
                       <button type="submit" class="btn btn-outline-danger btn-accion">Estoy listo</button>
                     </form>
-                  <form action="/cancel-game" method="post">
+                 {% if master == False %}
+                  <form action="/leave-game" method="get">
                     <button type="submit" class="btn btn-outline-danger btn-accion">Salir</button>
                   </form>
+                 {% endif %}
                   </div>              
                 </div>
             </div>            

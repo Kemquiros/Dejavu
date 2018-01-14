@@ -1,6 +1,7 @@
 function getPlayers(){
   jQuery.get("/players", function(data, status){
       $("tbody").empty();
+      console.log(data);
       jQuery.each(data, function() {
         var row = $('<tr>');
         
@@ -27,8 +28,20 @@ function getPlayers(){
   });
 }
 
+function getState(){
+  jQuery.get('/state', function(data, status){
+   if(data['state'] == "pendiente"){
+      getPlayers();
+    }else if(data['state'] == "activa"){
+      window.location.replace("/board");
+    }else if(data['state'] == "terminada" || data['state'] == "no existe"){
+      window.location.replace("/games");
+    }
+  });
+}
+
 function initClock(){
-  var reloj = setInterval(getPlayers, 2000);  
+  var reloj = setInterval(getState, 2000);  
   $(window).on('hashchange', function(e){
     clearInterval(reloj);
   });

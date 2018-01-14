@@ -32,6 +32,22 @@ class Partida:
       
   def puedeAddJugador(self):
     return self.numeroJugadores < self.numeroJugadoresMax
+   
+  def toJSON(self):
+   return {
+    "inicioPartida" : self.getTime(),
+    "creador" : self.creador.nombre,
+    "nombre" : self.nombre,
+    "numeroJugadoresMax" : self.numeroJugadoresMax,
+    "numeroJugadores" : self.numeroJugadores,
+    "estado" : self.estado    
+   }
+  
+  def getTime(self):
+   seconds = time.time() - self.inicioPartida
+   m, s = divmod(seconds, 60)
+   h, m = divmod(m, 60)
+   return "%d:%02d:%02d" % (h, m, s)
       
 
     

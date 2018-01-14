@@ -13,14 +13,14 @@
     <script src="static/js/index.js"></script>
   </head>
   
-  <body onload="cargarIco()"> 
+  <body> 
     <div class="row contenedor-principal">      
       <div class="col-lg-4">
       </div>
       <div class="col-lg-4">
         <div class="row">
           <div class="contenedor-logo">
-            <img src="static/img/logo.png">
+               <img src="static/img/logo.png" onClick="window.location.replace('/');">
           </div>     
         </div>
         <div class="row">
@@ -28,34 +28,64 @@
             <div class="row">
               <div class="col-lg-4"></div>
               <div class="col-lg-4">
-                <img id="img-ico" class="img-ico">
+               {% if isLoged == True %}
+                <img id="img-ico" class="img-ico" src="static/img/ico/{{ icono }}.png">
+               {% else %}
+                <img id="img-ico" class="img-ico" src="static/img/ico/{{ iconoAleatorio }}.png">
+               {% endif %}
+                
               </div>
               <div class="col-lg-4"></div>              
-            </div>            
-            <form action="/login" method="post">
-              <div class="form-group text-center">                
+            </div>  
+           {% if isLoged == True %}
+           <div class="form-group text-center">
+            <label class="label-nombre">{{ nombre }}</label>
+           </div>
+           {% else %}
+              <div class="form-group text-center"> <!-- Inicio seleccionar iconos -->               
                   <button class="btn btn-outline-danger" type="button" data-toggle="collapse" data-target="#collapseIco" aria-expanded="false" aria-controls="collapseIco">
                     Selecciona un icono
-                  </button>
-                </p>
+                  </button>                
                 <div class="collapse" id="collapseIco">
                   <div class="card card-block">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                    {% for i in range(0,263) %}
+                    <div class="row">
+                     {% for j in range(0,3) %}
+                     <div class="col-lg-4">
+                       <img id="{{(3*i)+j+1}}" src="static/img/ico/{{(3*i)+j+1}}.png" onClick="select(this)" class="img-ico-card">
+                     </div>
+                     {% endfor %}
+                    </div>
+                    {% endfor %}
                   </div>
                 </div>
-              </div>              
+              </div> <!-- Fin seleccionar iconos -->
+           {% endif %}
+         
+           {% if isLoged == True %}
+            <div class="form-group text-center">
+             <form action="/games" method="get">
+               <button type="submit" class="btn btn-outline-danger btn-form">Ver Partidas</button>  
+             </form>
+             <form action="/logout" method="post">
+               <button type="submit" class="btn btn-outline-danger btn-form">Cerrar Sesión</button> 
+             </form>                           
+            </div>         
+           {% else %}           
+            <form action="/login" method="post">
               <div class="form-group">
                 <label class="label-propio" for="nombre"><h4>Nombre</h4></label>
                 <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingresa un nombre" required>
               </div>
               <div class="form-group">                
-                <input type="text" class="form-control" id="ico" name="ico" required>
+                <input type="hidden" class="form-control" id="ico" name="ico" value="{{ iconoAleatorio }}" required>
               </div>            
               <div class="form-group text-center">
-                <button type="submit" class="btn btn-outline-danger">Ingresar</button>
+                <button type="submit" class="btn btn-outline-danger btn-form">Ingresar</button>
               </div>
             </form>
-          </div>           
+           {% endif %}
+          </div>  <!-- Fin Contenedor de formulario -->         
         </div>
 
       </div>

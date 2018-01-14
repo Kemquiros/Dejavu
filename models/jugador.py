@@ -5,9 +5,12 @@ class Jugador:
     self.icono = icon
     self.token = tk
     self.avatar = None
+    self.partida = None
     
   def setAvatar(self,avt):
     self.avatar = avt
+  def setPartida(self,p):
+    self.partida = p   
     
   def toJSON(self):
     return {

@@ -34,8 +34,17 @@ class Controller:
         session['token'] = token
         session['name'] = name
         session['icon'] = icon
-        return True            
-
+        return True         
+  def logout(self):
+    if 'token' in session:      
+      self.leave_game()   
+      jugador = self.dejavu.getJugador(session['token']) 
+      if jugador is not None:
+        self.dejavu.delJugador(jugador.token)   
+      for element in ['token','name','icon']:
+        if element in session:          
+          del session[element]     
+      
   def new_game(self,request):
     if request.method == 'POST':
       numeroJ = int(request.form['numeroJ'])
@@ -46,6 +55,23 @@ class Controller:
       self.dejavu.addPartida(nuevaPartida)
       session['partida'] = nombreP  
       
+  def leave_game(self):
+    if 'token' in session:
+      jugador = self.dejavu.getJugador(session['token']) 
+      if jugador is not None:        
+        if jugador.partida is not None:
+          partida = jugador.partida
+          partida.delJugador(jugador.nombre)      
+          jugador.partida = None
+      if 'partida' in session:
+        del session['partida']      
+    
+  def cancel_game(self):
+    jugador = self.dejavu.getJugador(session['token']) 
+    if jugador.partida is not None:
+      self.dejavu.delPartida(jugador.partida.nombre)
+      self.leave_game()
+    
   def join_player(self,request):
     nombreP = request.form['partida']
     session['partida'] = nombreP
@@ -60,17 +86,20 @@ class Controller:
     
     if partida.puedeAddJugador():
       jugador.setAvatar(avatar)
-      partida.addJugador(jugador)
+      jugador.setPartida(partida)
+      partida.addJugador(jugador)      
       return True
-    
-    session['partida'] = None
+     
+    #la partida esta completa
+    del session['partida'] 
     return False
         
       
   def is_master(self):
-    partida = self.dejavu.getPartida(session['partida'])
-    if session['token'] == partida.creador.token:
-      return True
+    if 'partida' in session:
+      partida = self.dejavu.getPartida(session['partida'])
+      if session['token'] == partida.creador.token:
+        return True
     return False
   
   def get_players(self):
@@ -81,6 +110,8 @@ class Controller:
     partida = self.dejavu.getPartida(session['partida'])
     if partida is not None:
       return partida.estado 
+    else:
+      return "no existe"
     return None
   
   def start(self):
