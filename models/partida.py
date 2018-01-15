@@ -52,7 +52,7 @@ class Partida:
    
   def toJSON(self):
    creatorName = None
-   if self.creador is None:
+   if not self.creador is None:
      creatorName = self.creador.nombre
    return {
     "inicioPartida" : self.getTime(),
