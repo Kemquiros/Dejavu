@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import division
 import numpy as np
 import random
@@ -12,8 +13,7 @@ class Mapa:
   tamFil = 40
   
   traslacionCapa = {1:"prado",2:"oceano",3:"rio",4:"camino",5:"bosque",6:"montana",7:"nieve",8:"pantano",9:"castillo",10:"aldea",11:"ciudad",12:"templo",13:"portal",14:"montana-nieve"}
-  nroTile = 
-  {
+  nroTile = {
     1:4,
     2:3,
     3:3,
@@ -240,7 +240,7 @@ class Mapa:
             while(not terminaCamino):
               sigueCamino = random.randint(1,100)
               if(sigueCamino <= 90):
-                #Elige una dirección del camino
+                #Elige una direccion del camino
                 direccion = math.randint(1,4)
                 k = 0
                 while k < longitudCamino:
@@ -325,17 +325,17 @@ class Mapa:
             while(not terminaCamino):
               sigueCamino = random.randint(1,100)
               if(sigueCamino <= 50):
-                #Elige una dirección del camino
+                #Elige una direccion del camino
                 direccion = math.randint(1,4)
                 for k in range(0,longitudCamino):
                   puedeDibujar = True
-                  if direccion == 1 && (jAct-1) >= 0:
+                  if direccion == 1 and (jAct-1) >= 0:
                     jAct -=1
-                  elif direccion == 2 && (iAct+1) < self.nroColumnas:
+                  elif direccion == 2 and (iAct+1) < self.nroColumnas:
                     iAct +=1
-                  elif direccion == 3 && (jAct+1) < self.nroColumnas:
+                  elif direccion == 3 and (jAct+1) < self.nroColumnas:
                     jAct +=1
-                  elif direccion == 4 && (iAct-1) < self.nroColumnas:
+                  elif direccion == 4 and (iAct-1) < self.nroColumnas:
                     iAct -=1
                   else:
                     puedeDibujar = False
