@@ -129,13 +129,12 @@ def get_state():
 
 @app.route('/room',methods=['GET'])
 def get_room():
-  if 'token' in session:
+  if 'token' in session and 'partida' in session:          
     #Si el jugador es el master
     isMaster = controller.is_master()
     players = controller.get_players()
     return render_template('room-game.html',nombre=session['name'],icono=session['icon'], master=isMaster)
-  else:
-    return redirect("/games", code=302)
+  return redirect("/games", code=302)
   
 @app.route('/leave-game',methods=['GET'])
 def leave_game():

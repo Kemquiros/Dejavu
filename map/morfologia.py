@@ -27,7 +27,7 @@ def erode(mapa, nroFilas,nroColumnas, tamKernel):
   
   #Se buscan los cuadros a erosionar
   for i in range(0,nroColumnas):
-    for j in range(0,nroFilas):
+    for j in range(0,nroFilas):      
       if(mapa[j][i]==2):
         puntosCoinciden = True
         for m in range(0,tamKernel):
@@ -39,9 +39,9 @@ def erode(mapa, nroFilas,nroColumnas, tamKernel):
               #Coinciden los puntos
               if(kernel[n][m]==1 and mapa[jAct][iAct] != 2):
                 puntosCoinciden = False
-      #Si la plantilla no coincide
-      if(not puntosCoinciden):
-        mapaReferencia[j][i] = 1
+        #Si la plantilla no coincide
+        if(not puntosCoinciden):
+          mapaReferencia[j][i] = 1
         
   #Se erosionan los cuadros
   for i in range(0,nroColumnas):
