@@ -14,16 +14,16 @@ class Mapa:
   
   def __init__(self,numeroJugadores):
     self.nroJugadores = numeroJugadores
-    self.nroFilas = nroJugadores * promMovimiento
-    self.nroColumnas = nroJugadores * promMovimiento
-    self.nroOceanosMax = (nroJugadores/4)+1
-    self.nroRiosMax = (nroJugadores/2)+1
-    self.mapa = np.zeros((nroFilas,nroColumnas))
+    self.nroFilas = self.nroJugadores * self.promMovimiento
+    self.nroColumnas = self.nroJugadores * self.promMovimiento
+    self.nroOceanosMax = (self.nroJugadores/4)+1
+    self.nroRiosMax = (self.nroJugadores/2)+1
+    self.mapa = np.zeros((self.nroFilas,self.nroColumnas))
     self.crearMapa()
     
   def crearMapa(self):
-    crearPrado()
-    crearOceano()
+    self.crearPrado()
+    self.crearOceano()
   
   def crearPrado(self):
     for i in range(0,self.nroFilas):
@@ -61,7 +61,7 @@ class Mapa:
   def crearOceano(self):    
     oceanoOcupado = np.zeros((5))
     for nroOceanos in range(0,self.nroOceanosMax):
-      tamOceano = (promMovimiento/2) * random.randint(1, self.nroJugadores)
+      tamOceano = (self.promMovimiento/2) * random.randint(1, self.nroJugadores)
       
       #Selecciona un oceano libre
       puedeContinuar = False
@@ -80,14 +80,14 @@ class Mapa:
          |3     2|
           -------
       '''
-      xCentro,yCentro = getCentroOceano(oceano,self.nroFilas,self.nroColumnas)
+      xCentro,yCentro = self.getCentroOceano(oceano,self.nroFilas,self.nroColumnas)
       
       #Recorre todo el mapa y dibuja el oceano
       #Segun la distancia entre la casilla y el centro del oceano
       for i in range(0,self.nroFilas):
         for j in range(0,self.nroColumnas):
-          distancia = calcularDistancia(i,j,xCentro,yCentro)
-          probabilidad = gaussianPDF(0, tamOceano, distancia)
+          distancia = self.calcularDistancia(i,j,xCentro,yCentro)
+          probabilidad = self.gaussianPDF(0, tamOceano, distancia)
           if( random.random() <= (probabilidad*10) ):
             self.mapa[j][i] = 2
             
