@@ -25,9 +25,17 @@ class Mapa:
     self.crearMapa()
     
   def crearMapa(self):
-    self.crearPrado()
-    self.crearOceano()
-    self.crearRio()
+    self.crearPrado() #Listo
+    self.crearOceano() #Listo
+    self.crearRio() #Listo
+    self.crearCamino()
+    self.crearBosque()
+    self.crearMontana()
+    self.crearCastillo()
+    self.crearTemplo()
+    self.crearCiudad()
+    
+    
   
   def crearPrado(self):
     for i in range(0,self.nroFilas):
@@ -107,7 +115,7 @@ class Mapa:
     #Pule los bordes
     self.mapa1 = erode(self.mapa1, self.nroFilas,self.nroColumnas, 3)
     
-  def crearRio():
+  def crearRio(self):
     for nroRios in range(0,self.nroRiosMax):
       for i in range(0,self.nroColumnas):
         for j in range(0,self.nroFilas):
@@ -166,17 +174,18 @@ class Mapa:
               self.mapa1[jAct][iAct] = 3
             #Genera nevado
             self.crearMontanaNieve(iMontana,jMontana)
-  def puntoPerteneceMapa(x,y):
+
+  def puntoPerteneceMapa(self,x,y):
     if(x>=0 and x< self.nroColumnas and y>=0 and y<self.nroFilas):
       return True
     return False
   
-  def puntoPerteneceCircunferencia(x,y,xCentro,yCentro,r):
+  def puntoPerteneceCircunferencia(self,x,y,xCentro,yCentro,r):
     if(math.pow(x-xCentro,2) + math.pow(y-yCentro,2) <= math.pow(r,2)):
       return True
     return False
     
-  def crearMontanaNieve(iM,jM):    
+  def crearMontanaNieve(self,iM,jM):    
     self.mapa1[jMontana][iMontana] = 7 #nieve
     self.mapa2[jMontana][iMontana] = 14#montana-nieve
     #Establecer radio del nevado
@@ -186,10 +195,75 @@ class Mapa:
     for i in range(iIni,iIni+(radio*2)+1):
       for j in range(jIni,jIni+(radio*2)+1):
         #Determinar si el punto pertenece al mapa
-        if(selfpuntoPerteneceMapa(i,j)):
+        if(self.puntoPerteneceMapa(i,j)):
           #Determinar si el punto pertenece a la circunferencia
-          if(puntoPerteneceCircunferencia(i,j,iM,jM,radio)):
+          if(self.puntoPerteneceCircunferencia(i,j,iM,jM,radio)):
             #No sobreescribir el rio o el oceano
             if(self.mapa1[jAct][iAct] != 3 and self.mapa1[jAct][iAct] != 2):
               self.mapa1[jAct][iAct] = 7 #Nieve
-        
+              
+  def crearCamino(self):
+    longitudCamino = random.randint(10,30):
+    for i in range(0,self.nroColumnas):
+        for j in range(0,self.nroFilas):
+          probabilidad = random.randint(1,100)
+          if(probabilidad <= 2 ):
+            iAct = i
+            jAct = j
+            #Comienza a dibujar un camino
+            terminaCamino = False
+            while(not terminaCamino):
+              sigueCamino = random.randint(1,100)
+              if(sigueCamino <= 90):
+                #Elige una dirección del camino
+                direccion = math.randint(1,4):
+                k = 0
+                while k < longitudCamino:
+                  puedeDibujar = False
+                  nroIntentos = 0
+                  while(not puedeDibujar and nroIntentos < 4):
+                    condicion1,condicion2  = False, False
+                    #Asume el nuevo punto
+                    jP ,iP = jAct , iAct
+                    if(direccion == 1):
+                      jP -= 1 #arriba
+                    elif(direccion == 2):
+                      iP +=1 #derecha
+                    elif(direccion == 3):
+                      jP +=1 #abajo
+                    elif(direccion == 4):
+                      iP -=1 #Izquierda                     
+                    #El nuevo punto pertenece al mapa
+                    if(self.puntoPerteneceMapa(iP,jP)):
+                      condicion1 = True
+                    else:
+                      #Se termina el camino                      
+                      k = longitudCamino
+                      terminaCamino = True
+                      break
+
+                    #El nuevo punto es un terreno permitido
+                    if (self.Mapa1[jP][iP] != "oceano" and self.Mapa1[jP][iP] != "rio" and self.Mapa1[jP][iP] != "nieve"):
+                      condicion2 = True 
+                    
+                    if condicion1 and condicion2:
+                      puedeDibujar = True
+                      jAct , iAct = jP ,iP
+                    else:
+                      #Cambia de direccion                      
+                      direccion = math.randint(1,4)
+                      #Suma el numero de intentos
+                      nroIntentos += 1
+                      
+                  #Dibuja
+                  if puedeDibujar:
+                    self.mapa1[jAct][iAct] = "camino"
+                  if nroIntentos >= 4:
+                    #Se termina el camino                      
+                    k = longitudCamino
+                    terminaCamino = True
+                  #Aumenta el ciclo
+                  k +=1                  
+              else:
+                terminaCamino = True
+            
