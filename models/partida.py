@@ -1,5 +1,6 @@
 import time
 import random
+from map.mapa import Mapa
 
 class Partida:
   

@@ -70,7 +70,7 @@ def dilate(mapa, nroFilas,nroColumnas, tamKernel):
             jAct = j - centroKernel + n
             #Si el punto existe
             if(iAct >= 0 and iAct < nroColumnas and jAct >= 0 and jAct < nroFilas):               
-              #Si el punto está en el kernel
+              #Si el punto esta en el kernel
               #Pero no en el mapa
               if(kernel[n][m]==1 and mapa[jAct][iAct] != 2):
                 mapaReferencia[jAct][iAct] = 1
