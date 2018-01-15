@@ -25,7 +25,7 @@ class Partida:
      self.turno = self.turno + 1
      self.turnoActual = 0
      self.ordenTurno = []
-     llaves = list[self.jugadores.keys()]
+     llaves = self.jugadores.keys()
      while(len(self.ordenTurno)<len(llaves)):
        nuevo = random.randint(0, len(llaves)-1)
        if not llaves[nuevo] in self.ordenTurno:

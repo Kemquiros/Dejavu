@@ -1,3 +1,4 @@
+from __future__ import division
 import numpy as np
 import random
 import math
@@ -16,8 +17,8 @@ class Mapa:
     self.nroJugadores = numeroJugadores
     self.nroFilas = self.nroJugadores * self.promMovimiento
     self.nroColumnas = self.nroJugadores * self.promMovimiento
-    self.nroOceanosMax = (self.nroJugadores/4)+1
-    self.nroRiosMax = (self.nroJugadores/2)+1
+    self.nroOceanosMax = int(self.nroJugadores/4)+1
+    self.nroRiosMax = int(self.nroJugadores/2)+1
     self.mapa = np.zeros((self.nroFilas,self.nroColumnas))
     self.crearMapa()
     
@@ -30,7 +31,7 @@ class Mapa:
       for j in range(0,self.nroColumnas):
         self.mapa[i][j] = 1
 
-  def getCentroOceano(indice,nroFilas,nroColumnas):
+  def getCentroOceano(self,indice,nroFilas,nroColumnas):
     xCentro = -1
     yCentro = -1
     if(indice == 0):
@@ -46,16 +47,18 @@ class Mapa:
       xCentro = 0
       yCentro = nroFilas-1  
     elif(indice == 4):
-      xCentro = (nroColumnas-1)/2
-      yCentro = (nroFilas-1)/2
+      xCentro = int(round((nroColumnas-1)/2))
+      yCentro = int(round((nroFilas-1)/2))
     return xCentro,yCentro
   
-  def calcularDistancia(x0,y0,x1,y1):
+  def calcularDistancia(self,x0,y0,x1,y1):
     return math.sqrt(math.pow(x0-x1,2) + math.pow(y0-y1,2))
   
-  def gaussianPDF(mean, variance, x):
+  def gaussianPDF(self,mean, variance, x):
     standardDeviation = math.sqrt(variance)
     m = standardDeviation * math.sqrt(2 * math.pi)
+    e = math.exp(-1*math.pow(x -mean, 2) / (2 * variance))
+    return e / m
     
     
   def crearOceano(self):    
@@ -71,7 +74,7 @@ class Mapa:
         oceano = random.randint(0, 4)
         if(oceanoOcupado[oceano]==0):
           oceanoOcupado[oceano] = 1
-          puedeContinuar = true
+          puedeContinuar = True
       
       '''
           -------

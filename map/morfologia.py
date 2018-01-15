@@ -19,7 +19,7 @@ def createReferenceMap(nroFilas,nroColumnas):
 
 def erode(mapa, nroFilas,nroColumnas, tamKernel):
   #Crear Kernel
-  kernel, centroKernel = createKernel(tamKernel)
+  kernel, centroKernel = crearKernel(tamKernel)
   
   #Creamos un nuevo mapa de refencia
   #El cual va a modificar al mapa real  
@@ -53,7 +53,7 @@ def erode(mapa, nroFilas,nroColumnas, tamKernel):
   
 def dilate(mapa, nroFilas,nroColumnas, tamKernel):
   #Crear Kernel
-  kernel, centroKernel = createKernel(tamKernel)
+  kernel, centroKernel = crearKernel(tamKernel)
   
   #Creamos un nuevo mapa de refencia
   #El cual va a modificar al mapa real  
