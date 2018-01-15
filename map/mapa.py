@@ -11,7 +11,7 @@ class Mapa:
   tamCol = 40
   tamFil = 40
   
-  traslacionCapa = {1:"prado",2:"oceano",3:"rio",4:"camino",5:"bosque",6:"montana",7:"nieve",8:"pantano",9:"castillo",10:"aldea",11:"ciudad",12:"templo",13:"portal"}
+  traslacionCapa = {1:"prado",2:"oceano",3:"rio",4:"camino",5:"bosque",6:"montana",7:"nieve",8:"pantano",9:"castillo",10:"aldea",11:"ciudad",12:"templo",13:"portal",14:"montana-nieve"}
   
   def __init__(self,numeroJugadores):
     self.nroJugadores = numeroJugadores
@@ -19,17 +19,20 @@ class Mapa:
     self.nroColumnas = self.nroJugadores * self.promMovimiento
     self.nroOceanosMax = int(self.nroJugadores/4)+1
     self.nroRiosMax = int(self.nroJugadores/2)+1
-    self.mapa = np.zeros((self.nroFilas,self.nroColumnas))
+    self.mapa1 = np.zeros((self.nroFilas,self.nroColumnas))
+    self.mapa2 = np.zeros((self.nroFilas,self.nroColumnas))
+    self.mapa3 = np.zeros((self.nroFilas,self.nroColumnas))
     self.crearMapa()
     
   def crearMapa(self):
     self.crearPrado()
     self.crearOceano()
+    self.crearRio()
   
   def crearPrado(self):
     for i in range(0,self.nroFilas):
       for j in range(0,self.nroColumnas):
-        self.mapa[i][j] = 1
+        self.mapa1[i][j] = 1                                      
 
   def getCentroOceano(self,indice,nroFilas,nroColumnas):
     xCentro = -1
@@ -62,7 +65,7 @@ class Mapa:
     
     
   def crearOceano(self):    
-    oceanoOcupado = np.zeros((5))
+    self.oceanoOcupado = np.zeros((5))
     for nroOceanos in range(0,self.nroOceanosMax):
       tamOceano = (self.promMovimiento/2) * random.randint(1, self.nroJugadores)
       
@@ -92,16 +95,76 @@ class Mapa:
           distancia = self.calcularDistancia(i,j,xCentro,yCentro)
           probabilidad = self.gaussianPDF(0, tamOceano, distancia)
           if( random.random() <= (probabilidad*10) ):
-            self.mapa[j][i] = 2
+            self.mapa1[j][i] = 2
             
     #Aplicar factor morfologico closing
     #closing =  dilatacion -> erosion
     for i in range(0,3):
       #Dilatacion
-      self.mapa = dilate(self.mapa, self.nroFilas,self.nroColumnas, 3)
+      self.mapa1 = dilate(self.mapa1, self.nroFilas,self.nroColumnas, 3)
       #Erosion
-      self.mapa = erode(self.mapa, self.nroFilas,self.nroColumnas, 3)
+      self.mapa1 = erode(self.mapa1, self.nroFilas,self.nroColumnas, 3)
     #Pule los bordes
-    self.mapa = erode(self.mapa, self.nroFilas,self.nroColumnas, 3)
+    self.mapa1 = erode(self.mapa1, self.nroFilas,self.nroColumnas, 3)
+    
+  def crearRio():
+    for nroRios in range(0,self.nroRiosMax):
+      for i in range(0,self.nroColumnas):
+        for j in range(0,self.nroFilas):
+          probabilidad = random.randint(1, 300)
+          if(probabilidad <=1 and self.mapa1[j][i] == "prado"):
+            #Aparece montana nieve
+            iMontana = i
+            jMontana = j
+            mapa1[jMontana][iMontana] = "nieve"
+            mapa2[jMontana][iMontana] = "montana-nieve"
+            
+            #Encuentra el primer oceano ocupado
+            xCentro,yCentro,oceanoCercano,distancia = None,None,None,None            
+            for t in range(0,5):
+              if(self.oceanoOcupado[t] == 1):
+                oceanoCercano = t
+                xCentro,yCentro = getCentroOceano(t,nroFilas,nroColumnas)
+                distancia = calcularDistancia(i,j,xCentro,yCentro)
+                break
+                
+            #Encuentra el oceano mas cercano
+            for t in range(0,5):
+              #No sea el mismo oceano
+              if(self.oceanoOcupado[t] == 1 and oceanoCercano!=t):
+                xCentroNuevo,yCentroNuevo = getCentroOceano(t,nroFilas,nroColumnas)
+                distanciaNueva = calcularDistancia(i,j,xCentroNuevo,yCentroNuevo)
+                if(distanciaNueva < distancia):
+                  distancia= distanciaNueva
+                  oceanoCercano = t
+                  xCentro = xCentroNuevo
+                  yCentro = yCentroNuevo  
+                  
+            #Traza la ruta al oceano mas cercano
+            iAct = i
+            jAct = j
+            while(iAct != xCentro and jAct != yCentro):
+              #Busca el centro del oceano
+              if(Math.abs(iAct-xCentro) >= Math.abs(jAct-yCentro)):
+                #Avanza en el eje x
+                #Detetrmina si es derecha o izquierda
+                if(iAct-xCentro >= 0):
+                  #Izquierda
+                  iAct = iAct - 1
+                else:
+                   #Derecha
+                   iAct = iAct + 1
+              else:
+                #Avanza en el eje y
+                #Detetrmina si es arriba o abajo
+                if(jAct-yCentro >= 0):
+                  #Izquierda
+                  jAct = jAct - 1
+                else:
+                   #Derecha
+                   jAct = jAct + 1
+                   
+              #Establece la corriente del rio
+              self.mapa1[jAct][iAct] = "rio"    
     
     
