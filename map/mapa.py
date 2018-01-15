@@ -112,12 +112,10 @@ class Mapa:
       for i in range(0,self.nroColumnas):
         for j in range(0,self.nroFilas):
           probabilidad = random.randint(1, 300)
-          if(probabilidad <=1 and self.mapa1[j][i] == "prado"):
+          if(probabilidad <=1 and self.mapa1[j][i] == 1):
             #Aparece montana nieve
             iMontana = i
             jMontana = j
-            mapa1[jMontana][iMontana] = "nieve"
-            mapa2[jMontana][iMontana] = "montana-nieve"
             
             #Encuentra el primer oceano ocupado
             xCentro,yCentro,oceanoCercano,distancia = None,None,None,None            
@@ -165,6 +163,33 @@ class Mapa:
                    jAct = jAct + 1
                    
               #Establece la corriente del rio
-              self.mapa1[jAct][iAct] = "rio"    
+              self.mapa1[jAct][iAct] = 3
+            #Genera nevado
+            self.crearMontanaNieve(iMontana,jMontana)
+  def puntoPerteneceMapa(x,y):
+    if(x>=0 and x< self.nroColumnas and y>=0 and y<self.nroFilas):
+      return True
+    return False
+  
+  def puntoPerteneceCircunferencia(x,y,xCentro,yCentro,r):
+    if(math.pow(x-xCentro,2) + math.pow(y-yCentro,2) <= math.pow(r,2)):
+      return True
+    return False
     
-    
+  def crearMontanaNieve(iM,jM):    
+    self.mapa1[jMontana][iMontana] = 7 #nieve
+    self.mapa2[jMontana][iMontana] = 14#montana-nieve
+    #Establecer radio del nevado
+    radio = random.randint(1,int(self.nroJugadores/2))
+    iIni = iM - radio
+    jIni = jM - radio
+    for i in range(iIni,iIni+(radio*2)+1):
+      for j in range(jIni,jIni+(radio*2)+1):
+        #Determinar si el punto pertenece al mapa
+        if(selfpuntoPerteneceMapa(i,j)):
+          #Determinar si el punto pertenece a la circunferencia
+          if(puntoPerteneceCircunferencia(i,j,iM,jM,radio)):
+            #No sobreescribir el rio o el oceano
+            if(self.mapa1[jAct][iAct] != 3 and self.mapa1[jAct][iAct] != 2):
+              self.mapa1[jAct][iAct] = 7 #Nieve
+        
