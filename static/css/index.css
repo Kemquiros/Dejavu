@@ -23,7 +23,7 @@ html{
   width: inherit;
 }
 .btn-form{
-  width: 100%;
+  width: 90%;
   margin: 2px;
 }
 #collapseIco .card{
@@ -34,6 +34,7 @@ html{
   background-color: rgba(0, 0, 0, 0.6);  
   height: auto;
   width: 100%;  
+  border-radius: 30px;
 }
 #ico{
  display: none;
