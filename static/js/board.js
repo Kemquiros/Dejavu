@@ -1,14 +1,21 @@
+datos = null;
+images = null;
 $( window ).on('load',function() {
   //Dibujar capas
   jQuery.get('/mapa', function(data, status){
-    cargarImagenes(data).done(function(data,images){
-      dibujarTablero(data);
-    }
+      datos = data;
+      images = cargarImagenes(datos);
+      setTimeout(relojDibujarTablero, 1000);
+      
   }); 
   //Establecer timer para actualizar el tiempo
 });
 
-function dibujarTablero(data,images){
+function relojDibujarTablero(){
+  dibujarTablero(datos);
+}
+
+function dibujarTablero(data){
 
   var capa1 = document.getElementById("layer1");
   var contexto1 = capa1.getContext("2d");
