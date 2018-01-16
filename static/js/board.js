@@ -1,12 +1,14 @@
 $( window ).on('load',function() {
   //Dibujar capas
   jQuery.get('/mapa', function(data, status){
-    dibujarTablero(data);
+    cargarImagenes(data).done(function(data,images){
+      dibujarTablero(data);
+    }
   }); 
   //Establecer timer para actualizar el tiempo
 });
 
-function dibujarTablero(data){
+function dibujarTablero(data,images){
 
   var capa1 = document.getElementById("layer1");
   var contexto1 = capa1.getContext("2d");
@@ -26,9 +28,7 @@ function dibujarTablero(data){
   capa2.width = capa1.width;
   capa2.height = capa1.height;
   capa3.width = capa1.width;
-  capa3.height = capa1.height;  
-  
-  var images = cargarImagenes(data);
+  capa3.height = capa1.height;      
     
   var M = [data.mapa1,data.mapa2];
   var V = [data.visual1,data.visual2];

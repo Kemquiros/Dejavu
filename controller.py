@@ -101,7 +101,7 @@ class Controller:
         
       
   def is_master(self):
-    if 'partida' in session:
+    if 'partida' in session and 'token' in session:
       partida = self.dejavu.getPartida(session['partida'])
       if partida is not None:
         if session['token'] == partida.creador.token:
