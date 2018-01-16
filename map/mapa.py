@@ -137,7 +137,7 @@ class Mapa:
     for nroRios in range(0,self.nroRiosMax):
       for i in range(0,self.nroColumnas):
         for j in range(0,self.nroFilas):
-          probabilidad = random.randint(1, 200*int(self.nroJugadores/4))
+          probabilidad = random.randint(1, 500*int(self.nroJugadores/4))
           if(probabilidad <=1 and self.mapa1[j][i] == 1):
             #Aparece montana nieve
             iMontana = i
@@ -231,7 +231,7 @@ class Mapa:
   def crearCamino(self):    
     for i in range(0,self.nroColumnas):
         for j in range(0,self.nroFilas):
-          probabilidad = random.randint(1,100)
+          probabilidad = random.randint(1,150)
           if(probabilidad <= 2 ):
             longitudCamino = random.randint(10,30)
             iAct = i
@@ -297,12 +297,13 @@ class Mapa:
   def crearBosque(self):
     for i in range(0,self.nroColumnas):
       for j in range(0,self.nroFilas):
-        probabilidad = random.randint(1,100*int(self.nroJugadores/4))
-        if(probabilidad <= 2 ):        
+        probabilidad = random.randint(1,200*int(self.nroJugadores/4))
+        if(probabilidad <= 3 ):        
           #Establecer radio del bosque
           radio = random.randint(1,int(self.nroJugadores/2))
           iIni = i - radio
           jIni = j - radio
+          tipoBosque = random.randint(1,self.nroTile[5]) -1
           for iAct in range(iIni,iIni+(radio*2)+1):
             for jAct in range(jIni,jIni+(radio*2)+1):
               #Determinar si el punto pertenece al mapa
@@ -311,8 +312,11 @@ class Mapa:
                 if(self.puntoPerteneceCircunferencia(iAct,jAct,i,j,radio)):                
                   #Se puede establecer en prado o nieve sin montana
                   if(self.mapa1[jAct][iAct] == 1 or (self.mapa1[jAct][iAct] == 7 and self.mapa2[jAct][iAct] != 14) ):
-                    self.mapa2[jAct][iAct] = 5 #bosque
-                    self.visual2[jAct][iAct] = random.randint(1,self.nroTile[5]) -1
+                    #Si no hay arbol
+                    #O si hay arbol, una baja probabilidad de ganarle
+                    if(self.mapa2[jAct][iAct] != 5 or (self.mapa2[jAct][iAct] == 5 and random.randint(1,100)<=2)):
+                      self.mapa2[jAct][iAct] = 5 #bosque
+                      self.visual2[jAct][iAct] = tipoBosque
           
   def crearMontana(self):
     for i in range(0,self.nroColumnas):
