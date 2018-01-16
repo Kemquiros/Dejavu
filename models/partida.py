@@ -19,7 +19,7 @@ class Partida:
     self.estado = None
     
   def crearMapa(self):
-    self.mapa = Mapa(self.numeroJugadores)
+    self.mapa = Mapa(self.numeroJugadoresMax)
     
   def nuevoTurno(self):
      self.turno = self.turno + 1

@@ -97,8 +97,8 @@ class Mapa:
       while(not puedeContinuar):
         #Selecciona uno de los 5 oceanos
         oceano = random.randint(0, 4)
-        if(oceanoOcupado[oceano]==0):
-          oceanoOcupado[oceano] = 1
+        if(self.oceanoOcupado[oceano]==0):
+          self.oceanoOcupado[oceano] = 1
           puedeContinuar = True
       
       '''
@@ -133,7 +133,7 @@ class Mapa:
     for i in range(0,self.nroFilas):
       for j in range(0,self.nroColumnas):
         if self.mapa1[j][i] == 2:
-          self.visual1[i][j] = random.randint(1,self.nroTile[2])
+          self.visual1[j][i] = random.randint(1,self.nroTile[2])
     
   def crearRio(self):
     for nroRios in range(0,self.nroRiosMax):
@@ -150,16 +150,16 @@ class Mapa:
             for t in range(0,5):
               if(self.oceanoOcupado[t] == 1):
                 oceanoCercano = t
-                xCentro,yCentro = getCentroOceano(t,nroFilas,nroColumnas)
-                distancia = calcularDistancia(i,j,xCentro,yCentro)
+                xCentro,yCentro = self.getCentroOceano(t,self.nroFilas,self.nroColumnas)
+                distancia = self.calcularDistancia(i,j,xCentro,yCentro)
                 break
                 
             #Encuentra el oceano mas cercano
             for t in range(0,5):
               #No sea el mismo oceano
               if(self.oceanoOcupado[t] == 1 and oceanoCercano!=t):
-                xCentroNuevo,yCentroNuevo = getCentroOceano(t,nroFilas,nroColumnas)
-                distanciaNueva = calcularDistancia(i,j,xCentroNuevo,yCentroNuevo)
+                xCentroNuevo,yCentroNuevo = self.getCentroOceano(t,self.nroFilas,self.nroColumnas)
+                distanciaNueva = self.calcularDistancia(i,j,xCentroNuevo,yCentroNuevo)
                 if(distanciaNueva < distancia):
                   distancia= distanciaNueva
                   oceanoCercano = t
@@ -171,7 +171,7 @@ class Mapa:
             jAct = j
             while(iAct != xCentro and jAct != yCentro):
               #Busca el centro del oceano
-              if(Math.abs(iAct-xCentro) >= Math.abs(jAct-yCentro)):
+              if(math.fabs(iAct-xCentro) >= math.fabs(jAct-yCentro)):
                 #Avanza en el eje x
                 #Detetrmina si es derecha o izquierda
                 if(iAct-xCentro >= 0):
@@ -192,7 +192,7 @@ class Mapa:
                    
               #Establece la corriente del rio
               self.mapa1[jAct][iAct] = 3
-              self.visual1[i][j] = random.randint(1,self.nroTile[3])
+              self.visual1[jAct][iAct] = random.randint(1,self.nroTile[3])
             #Genera nevado
             self.crearMontanaNieve(iMontana,jMontana)
 
@@ -207,10 +207,10 @@ class Mapa:
     return False
     
   def crearMontanaNieve(self,iM,jM):    
-    self.mapa1[jMontana][iMontana] = 7 #nieve
-    self.visual1[i][j] = random.randint(1,self.nroTile[7])
-    self.mapa2[jMontana][iMontana] = 14#montana-nieve
-    self.visual2[i][j] = random.randint(1,self.nroTile[14])
+    self.mapa1[jM][iM] = 7 #nieve
+    self.visual1[jM][iM] = random.randint(1,self.nroTile[7])
+    self.mapa2[jM][iM] = 14#montana-nieve
+    self.visual2[jM][iM] = random.randint(1,self.nroTile[14])
     
     #Establecer radio del nevado
     radio = random.randint(1,int(self.nroJugadores/2))
@@ -225,7 +225,7 @@ class Mapa:
             #No sobreescribir el rio o el oceano
             if(self.mapa1[jAct][iAct] == 1):
               self.mapa1[jAct][iAct] = 7 #Nieve
-              self.visual1[i][j] = random.randint(1,self.nroTile[7])
+              self.visual1[jAct][iAct] = random.randint(1,self.nroTile[7])
               
   def crearCamino(self):    
     for i in range(0,self.nroColumnas):
@@ -283,7 +283,7 @@ class Mapa:
                   #Dibuja
                   if puedeDibujar:
                     self.mapa1[jAct][iAct] = 4
-                    self.visual1[i][j] = random.randint(1,self.nroTile[4])
+                    self.visual1[jAct][iAct] = random.randint(1,self.nroTile[4])
                   if nroIntentos >= 4:
                     #Se termina el camino                      
                     k = longitudCamino
@@ -309,7 +309,7 @@ class Mapa:
                 #Se puede establecer en prado o nieve sin montana
                 if(self.mapa1[jAct][iAct] == 1 or (self.mapa1[jAct][iAct] == 7 and self.mapa2[jAct][iAct] == 14) ):
                   self.mapa2[jAct][iAct] = 5 #bosque
-                  self.visual2[i][j] = random.randint(1,self.nroTile[5])
+                  self.visual2[jAct][iAct] = random.randint(1,self.nroTile[5])
           
   def crearMontana(self):
     
@@ -344,7 +344,7 @@ class Mapa:
                     if self.mapa1[jAct][iAct] == 1 or self.mapa1[jAct][iAct] == 7 or self.mapa1[jAct][iAct] == 1:
                       if self.mapa2[jAct][iAct] != 14:
                         self.mapa2[jAct][iAct] = 6
-                        self.visual2[i][j] = random.randint(1,self.nroTile[6])
+                        self.visual2[jAct][iAct] = random.randint(1,self.nroTile[6])
                         
                     
     
