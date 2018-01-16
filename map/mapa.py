@@ -61,17 +61,41 @@ class Mapa:
       xCentro = 0
       yCentro = 0
     elif(indice == 1):
-      xCentro = nroColumnas-1
+      xCentro = int(round((nroColumnas-1)/2))
       yCentro = 0
     elif(indice == 2):
       xCentro = nroColumnas-1
-      yCentro = nroFilas-1   
+      yCentro = 0
     elif(indice == 3):
-      xCentro = 0
-      yCentro = nroFilas-1  
+      xCentro = nroColumnas-1
+      yCentro = int(round((nroFilas-1)/2))
     elif(indice == 4):
+      xCentro = nroColumnas-1
+      yCentro = nroFilas-1  
+    elif(indice == 5):
+      xCentro = int(round((nroColumnas-1)/2))
+      yCentro = nroFilas-1
+    elif(indice == 6):
+      xCentro = 0
+      yCentro = nroFilas-1 
+    elif(indice == 7):
+      xCentro = 0
+      yCentro = int(round((nroFilas-1)/2))     
+    elif(indice == 8):
       xCentro = int(round((nroColumnas-1)/2))
       yCentro = int(round((nroFilas-1)/2))
+    elif(indice == 9):
+      xCentro = int(round((nroColumnas-1)/4))
+      yCentro = int(round((nroFilas-1)/4))
+    elif(indice == 10):
+      xCentro = int(round(3*(nroColumnas-1)/4))
+      yCentro = int(round((nroFilas-1)/4))    
+    elif(indice == 11):
+      xCentro = int(round(3*(nroColumnas-1)/4))
+      yCentro = int(round(3*(nroFilas-1)/4)) 
+    elif(indice == 12):
+      xCentro = int(round((nroColumnas-1)/4))
+      yCentro = int(round(3*(nroFilas-1)/4))      
     return xCentro,yCentro
   
   def calcularDistancia(self,x0,y0,x1,y1):
@@ -85,7 +109,7 @@ class Mapa:
     
     
   def crearOceano(self):    
-    self.oceanoOcupado = np.zeros((5))
+    self.oceanoOcupado = np.zeros((13))
     for nroOceanos in range(0,self.nroOceanosMax):
       tamOceano = (self.data.promMovimiento) * random.randint(1, self.nroJugadores)
       
@@ -93,18 +117,20 @@ class Mapa:
       puedeContinuar = False
       oceano = -1
       while(not puedeContinuar):
-        #Selecciona uno de los 5 oceanos
-        oceano = random.randint(0, 4)
+        #Selecciona uno de los 13 oceanos
+        oceano = random.randint(0, 12)
         if(self.oceanoOcupado[oceano]==0):
           self.oceanoOcupado[oceano] = 1
           puedeContinuar = True
       
       '''
-          -------
-         |0     1|
-         |   4   |
-         |3     2|
-          -------
+          ---------
+         |0   1   2|
+         |  9   10 |
+         |7   8   3|
+         |  12  11 |
+         |6   5   4|
+          ---------
       '''
       xCentro,yCentro = self.getCentroOceano(oceano,self.nroFilas,self.nroColumnas)
       
@@ -114,7 +140,7 @@ class Mapa:
         for j in range(0,self.nroColumnas):
           distancia = self.calcularDistancia(i,j,xCentro,yCentro)
           probabilidad = self.gaussianPDF(0, tamOceano, distancia)
-          if( random.random() <= (probabilidad*10) ):
+          if( random.random() <= (probabilidad*12) ):
             self.mapa1[j][i] = 2
             
             
@@ -145,7 +171,7 @@ class Mapa:
             
             #Encuentra el primer oceano ocupado
             xCentro,yCentro,oceanoCercano,distancia = None,None,None,None            
-            for t in range(0,5):
+            for t in range(0,12):
               if(self.oceanoOcupado[t] == 1):
                 oceanoCercano = t
                 xCentro,yCentro = self.getCentroOceano(t,self.nroFilas,self.nroColumnas)
@@ -153,7 +179,7 @@ class Mapa:
                 break
                 
             #Encuentra el oceano mas cercano
-            for t in range(0,5):
+            for t in range(0,12):
               #No sea el mismo oceano
               if(self.oceanoOcupado[t] == 1 and oceanoCercano!=t):
                 xCentroNuevo,yCentroNuevo = self.getCentroOceano(t,self.nroFilas,self.nroColumnas)
