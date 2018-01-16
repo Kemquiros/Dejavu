@@ -87,7 +87,7 @@ class Mapa:
   def crearOceano(self):    
     self.oceanoOcupado = np.zeros((5))
     for nroOceanos in range(0,self.nroOceanosMax):
-      tamOceano = (self.data.promMovimiento/2) * random.randint(1, self.nroJugadores)
+      tamOceano = (self.data.promMovimiento) * random.randint(1, self.nroJugadores)
       
       #Selecciona un oceano libre
       puedeContinuar = False
