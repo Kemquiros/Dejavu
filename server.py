@@ -164,14 +164,31 @@ def start_game():
 def get_board():
   if 'token' in session and 'partida' in session:
     partida = dejavu.getPartida(session['partida'])
-    if not partida is None:
-      
+    if not partida is None:      
       return render_template('board.html',
                          nombre=session['name'],
                          icono=session['icon'],
                          turno=partida.turno,
                          tiempo=partida.getTime()
                         )
+    
+@app.route('/mapa', methods=['GET'])
+def get_mapa():   
+  if 'token' in session and 'partida' in session:
+    partida = dejavu.getPartida(session['partida'])
+    if not partida is None:
+      return jsonify(
+        {
+          "tamCol" : partida.mapa.data.tamColumnas,
+          "tamFil" : partida.mapa.data.tamFilas,
+          "nroCol" : partida.mapa.nroFilas,
+          "nroFil" : partida.mapa.nroColumnas,
+          "tiles" :  partida.mapa.data.tiles,
+          "visual1" : partida.mapa.visual1.tolist(),
+          "visual2" : partida.mapa.visual2.tolist()
+        }
+      )    
+    
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404

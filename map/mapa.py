@@ -4,13 +4,11 @@ import numpy as np
 import random
 import math
 from morfologia import dilate, erode
+from data import DataMap
 
 class Mapa:
-  numeroCapas = 4
-  promMovimiento = 7
   
-  tamCol = 40
-  tamFil = 40
+  data = DataMap()
   
   traslacionCapa = {1:"prado",2:"oceano",3:"rio",4:"camino",5:"bosque",6:"montana",7:"nieve",8:"pantano",9:"castillo",10:"aldea",11:"ciudad",12:"templo",13:"portal",14:"montana-nieve"}
   nroTile = {
@@ -26,8 +24,8 @@ class Mapa:
   
   def __init__(self,numeroJugadores):
     self.nroJugadores = numeroJugadores
-    self.nroFilas = self.nroJugadores * self.promMovimiento
-    self.nroColumnas = self.nroJugadores * self.promMovimiento
+    self.nroFilas = self.nroJugadores * self.data.promMovimiento
+    self.nroColumnas = self.nroJugadores * self.data.promMovimiento
     self.nroOceanosMax = int(self.nroJugadores/4)+1
     self.nroRiosMax = int(self.nroJugadores/2)+1
     self.mapa1 = np.zeros((self.nroFilas,self.nroColumnas))
@@ -89,7 +87,7 @@ class Mapa:
   def crearOceano(self):    
     self.oceanoOcupado = np.zeros((5))
     for nroOceanos in range(0,self.nroOceanosMax):
-      tamOceano = (self.promMovimiento/2) * random.randint(1, self.nroJugadores)
+      tamOceano = (self.data.promMovimiento/2) * random.randint(1, self.nroJugadores)
       
       #Selecciona un oceano libre
       puedeContinuar = False

@@ -1,5 +1,40 @@
+$( window ).load(){
+  dibujarTablero();
+  //Establecer timer para actualizar el tiempo
+}
+function dibujarTablero(){
+  var capa1 = document.getElementById("layer1");
+  var contexto1 = capa1.getContext("2d");
+  var capa2 = document.getElementById("layer2");
+  var contexto2 = capa2.getContext("2d");  
+  var capa3 = document.getElementById("layer3");
+  var contexto3 = capa3.getContext("2d");   
+  
+  var nroFilas = ;
+  var nroColumnas = ;
+  
+  var tamCol = ;
+  var tamFil = ;
+  
+  capa1.width = nroColumnas * tamCol;
+  capa1.height = nroFilas * tamFil;  
+  capa2.width = capa1.width;
+  capa2.height = capa1.height;
+  capa3.width = capa1.width;
+  capa3.height = capa1.height;  
+  
+  var tilesPrado = JSON.parse(getTilesPrado());
+  var tilesOceano = JSON.parse(getTilesOceano()); 
+  var tilesCamino = JSON.parse(getTilesCamino()); 
+  var tilesBosque = JSON.parse(getTilesBosque());
+  var tilesMontana = JSON.parse(getTilesMontana());
+  
+  
+  
+  
+}
 
-function crearTablero(){
+function otraCosa(){
   var capa1 = document.getElementById("layer1");
   var contexto1 = capa1.getContext("2d");
   var capa2 = document.getElementById("layer2");
@@ -339,27 +374,3 @@ function crearTablero(){
     }
 }
 
-function calcularDistancia(x0,y0,x1,y1){ 
-  return Math.pow(x0-x1,2) + Math.pow(y0-y1,2);
-}
-
-function getCentroOceano(indice,nroFilas,nroColumnas){
-var xCentro, yCentro;
-  if(indice == 0){
-     xCentro = 0;
-     yCentro = 0;
-  }else if(indice == 1){
-     xCentro = nroColumnas-1;
-     yCentro = 0;                 
-  }else if(indice == 2){
-     xCentro = nroColumnas-1;
-     yCentro = nroFilas-1;                 
-  }else if(indice == 3){
-     xCentro = 0;
-     yCentro = nroFilas-1;                 
-  }else if(indice == 4){
-     xCentro = Math.floor((nroColumnas-1)/2);
-     yCentro = Math.floor((nroFilas-1)/2);                 
-  }  
-  return [xCentro, yCentro];
-}
