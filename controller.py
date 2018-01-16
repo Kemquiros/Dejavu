@@ -127,6 +127,7 @@ class Controller:
     partida.nuevoTurno()
   
   def getEstadoPartida(self):
+    partida = self.dejavu.getPartida(session['partida'])  
     return partida.estado
     
 def get_avatar(raza):

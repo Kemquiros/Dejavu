@@ -152,7 +152,7 @@ def cancel_game():
 
 @app.route('/start',methods=['GET'])
 def start_game():
-  if 'token' in session:
+  if 'token' in session and 'partida' in session:
     if controller.is_master() and controller.getEstadoPartida() == "pendiente":
       controller.start()
       return redirect("/board", code=302)
