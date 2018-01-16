@@ -184,10 +184,13 @@ def get_mapa():
           "nroCol" : partida.mapa.nroFilas,
           "nroFil" : partida.mapa.nroColumnas,
           "tiles" :  partida.mapa.data.tiles,
+          "mapa1" : partida.mapa.mapa1.tolist(),
+          "mapa2" : partida.mapa.mapa2.tolist(),
           "visual1" : partida.mapa.visual1.tolist(),
           "visual2" : partida.mapa.visual2.tolist()
         }
-      )    
+      )  
+  return None
     
 @app.errorhandler(404)
 def page_not_found(e):

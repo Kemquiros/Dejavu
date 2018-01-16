@@ -67,6 +67,8 @@ class DataMap():
     } 
   }  
   
+  rio = oceano
+  
   camino = {
     "path":"static/img/map/tiles1.png",
     "n" : 5,
@@ -221,7 +223,7 @@ class DataMap():
   tiles = {
     1 : prado,
     2 : oceano,
-    3 : None,
+    3 : rio,
     4 : camino,
     5 : bosque,
     6 : montana,

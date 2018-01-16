@@ -47,7 +47,8 @@ class Controller:
           del session[element]     
       
   def new_game(self,request):
-    if request.method == 'POST':
+    
+    if request.method == 'POST' and 'token' in session:
       numeroJ = int(request.form['numeroJ'])
       nombreP= request.form['nombreP']
       master = self.dejavu.getJugador(session['token'])
@@ -55,6 +56,7 @@ class Controller:
       nuevaPartida.estado = "pendiente"
       self.dejavu.addPartida(nuevaPartida)
       session['partida'] = nombreP  
+      nuevaPartida.crearMapa()
       
   def leave_game(self):
     if 'token' in session:
@@ -78,21 +80,23 @@ class Controller:
     session['partida'] = nombreP
     
   def join_game(self,request):
-    partida = self.dejavu.getPartida(session['partida'])
-    jugador = self.dejavu.getJugador(session['token']) 
-    #Crear avatar
-    idRaza = request.form['raza']
-    raza = self.dejavu.razas[str(idRaza)]["nombre"]
-    avatar = get_avatar(raza)
-    
-    if partida.puedeAddJugador():
-      jugador.setAvatar(avatar)
-      jugador.setPartida(partida)
-      partida.addJugador(jugador)      
-      return True
-     
-    #la partida esta completa
-    del session['partida'] 
+    if 'token' in session and 'partida' in session:
+      partida = self.dejavu.getPartida(session['partida'])
+      jugador = self.dejavu.getJugador(session['token']) 
+      if (not partida is None) and (not jugador is None):
+        #Crear avatar
+        idRaza = request.form['raza']
+        raza = self.dejavu.razas[str(idRaza)]["nombre"]
+        avatar = get_avatar(raza)
+
+        if partida.puedeAddJugador():
+          jugador.setAvatar(avatar)
+          jugador.setPartida(partida)
+          partida.addJugador(jugador)      
+          return True
+        else:     
+          #la partida esta completa          
+          del session['partida'] 
     return False
         
       
@@ -122,8 +126,7 @@ class Controller:
   
   def start(self):
     partida = self.dejavu.getPartida(session['partida'])        
-    partida.estado = "activa"    
-    partida.crearMapa()
+    partida.estado = "activa"        
     partida.nuevoTurno()
   
   def getEstadoPartida(self):
