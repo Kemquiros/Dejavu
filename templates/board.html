@@ -19,6 +19,45 @@
   </head>
   
   <body onload="crearTablero()">  
+    
+    <!-- Fila del navbar -->
+    <div class="pos-f-t">
+      <div class="collapse" id="contenidoLugar">
+        <div class="bg-inverse p-4">
+          <h4 class="text-white">Collapsed content</h4>
+          <span class="text-muted">Toggleable via the navbar brand.</span>
+        </div>
+      </div>      
+      <nav class="navbar fixed-top navbar-light bg-faded">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#contenidoLugar" aria-controls="contenidoLugar" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="#">
+          <img src="/static/img/ico/{{icono}}.png" width="30" height="30" class="d-inline-block align-top" alt="">
+          
+        </a>
+        <ul class="navbar-nav">
+          <li>
+            <a class="nav-link dropdown-toggle" href="#{{nombre}}-menu" id="{{nombre}}-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {{nombre}}
+            </a>
+            <div class="dropdown-menu" aria-labelledby="{{nombre}}-menu">
+              <a class="dropdown-item" href="#">Equipo</a>
+              <a class="dropdown-item" href="#">Inventario</a>              
+            </div>            
+          </li>
+        </ul>
+        <span class="navbar-text">
+          Turno #{{turno}}
+        </span>
+        <span class="navbar-text">
+          Tiempo: {{tiempo}}
+        </span>
+        <form action="/leave-game" method="get" class="form-inline my-2 my-lg-0">          
+          <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Salir</button>
+        </form>        
+      </nav>
+    </div>
     <!-- Fila del titulo -->
     <div class="row" style="text-align:center">      
       <div class="col-lg-12">

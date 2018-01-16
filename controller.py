@@ -34,7 +34,8 @@ class Controller:
         session['token'] = token
         session['name'] = name
         session['icon'] = icon
-        return True         
+        return True      
+
   def logout(self):
     if 'token' in session:      
       self.leave_game()   
@@ -124,6 +125,9 @@ class Controller:
     partida.estado = "activa"    
     partida.crearMapa()
     partida.nuevoTurno()
+  
+  def getEstadoPartida(self):
+    return partida.estado
     
 def get_avatar(raza):
   avatar = None

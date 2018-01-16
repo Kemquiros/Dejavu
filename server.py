@@ -153,7 +153,7 @@ def cancel_game():
 @app.route('/start',methods=['GET'])
 def start_game():
   if 'token' in session:
-    if controller.is_master():
+    if controller.is_master() and controller.getEstadoPartida() == "pendiente":
       controller.start()
       return redirect("/board", code=302)
     else:
@@ -162,7 +162,16 @@ def start_game():
   
 @app.route('/board', methods=['GET'])
 def get_board():
-  return render_template('board.html')
+  if 'token' in session and 'partida' in session:
+    partida = dejavu.getPartida(session['partida'])
+    if not partida is None:
+      
+      return render_template('board.html',
+                         nombre=session['name'],
+                         icono=session['icon'],
+                         turno=partida.turnoActual,
+                         tiempo=partida.getTime()
+                        )
 
 
 if __name__ == '__main__':
