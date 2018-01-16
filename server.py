@@ -169,7 +169,7 @@ def get_board():
       return render_template('board.html',
                          nombre=session['name'],
                          icono=session['icon'],
-                         turno=partida.turnoActual,
+                         turno=partida.turno,
                          tiempo=partida.getTime()
                         )
 @app.errorhandler(404)

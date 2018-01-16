@@ -223,9 +223,9 @@ class Mapa:
           #Determinar si el punto pertenece a la circunferencia
           if(self.puntoPerteneceCircunferencia(i,j,iM,jM,radio)):
             #No sobreescribir el rio o el oceano
-            if(self.mapa1[jAct][iAct] == 1):
-              self.mapa1[jAct][iAct] = 7 #Nieve
-              self.visual1[jAct][iAct] = random.randint(1,self.nroTile[7])
+            if(self.mapa1[j][i] == 1):
+              self.mapa1[j][i] = 7 #Nieve
+              self.visual1[j][i] = random.randint(1,self.nroTile[7])
               
   def crearCamino(self):    
     for i in range(0,self.nroColumnas):
@@ -241,7 +241,7 @@ class Mapa:
               sigueCamino = random.randint(1,100)
               if(sigueCamino <= 90):
                 #Elige una direccion del camino
-                direccion = math.randint(1,4)
+                direccion = random.randint(1,4)
                 k = 0
                 while k < longitudCamino:
                   puedeDibujar = False
@@ -268,7 +268,7 @@ class Mapa:
                       break
 
                     #El nuevo punto es un terreno permitido
-                    if (self.Mapa1[jP][iP] == 1):
+                    if (self.mapa1[jP][iP] == 1):
                       condicion2 = True 
                     
                     if condicion1 and condicion2:
@@ -276,7 +276,7 @@ class Mapa:
                       jAct , iAct = jP ,iP
                     else:
                       #Cambia de direccion                      
-                      direccion = math.randint(1,4)
+                      direccion = random.randint(1,4)
                       #Suma el numero de intentos
                       nroIntentos += 1
                       
@@ -296,23 +296,24 @@ class Mapa:
   def crearBosque(self):
     for i in range(0,self.nroColumnas):
       for j in range(0,self.nroFilas):
-        #Establecer radio del bosque
-        radio = random.randint(1,int(self.nroJugadores/2))
-        iIni = iM - radio
-        jIni = jM - radio
-        for i in range(iIni,iIni+(radio*2)+1):
-          for j in range(jIni,jIni+(radio*2)+1):
-            #Determinar si el punto pertenece al mapa
-            if(self.puntoPerteneceMapa(i,j)):
-              #Determinar si el punto pertenece a la circunferencia
-              if(self.puntoPerteneceCircunferencia(i,j,iM,jM,radio)):                
-                #Se puede establecer en prado o nieve sin montana
-                if(self.mapa1[jAct][iAct] == 1 or (self.mapa1[jAct][iAct] == 7 and self.mapa2[jAct][iAct] == 14) ):
-                  self.mapa2[jAct][iAct] = 5 #bosque
-                  self.visual2[jAct][iAct] = random.randint(1,self.nroTile[5])
+        probabilidad = random.randint(1,100)
+        if(probabilidad <= 2 ):        
+          #Establecer radio del bosque
+          radio = random.randint(1,int(self.nroJugadores/2))
+          iIni = i - radio
+          jIni = j - radio
+          for iAct in range(iIni,iIni+(radio*2)+1):
+            for jAct in range(jIni,jIni+(radio*2)+1):
+              #Determinar si el punto pertenece al mapa
+              if(self.puntoPerteneceMapa(iAct,jAct)):
+                #Determinar si el punto pertenece a la circunferencia
+                if(self.puntoPerteneceCircunferencia(iAct,jAct,i,j,radio)):                
+                  #Se puede establecer en prado o nieve sin montana
+                  if(self.mapa1[jAct][iAct] == 1 or (self.mapa1[jAct][iAct] == 7 and self.mapa2[jAct][iAct] == 14) ):
+                    self.mapa2[jAct][iAct] = 5 #bosque
+                    self.visual2[jAct][iAct] = random.randint(1,self.nroTile[5])
           
   def crearMontana(self):
-    
     for i in range(0,self.nroColumnas):
         for j in range(0,self.nroFilas):
           probabilidad = random.randint(1,200)
@@ -326,7 +327,7 @@ class Mapa:
               sigueCamino = random.randint(1,100)
               if(sigueCamino <= 50):
                 #Elige una direccion del camino
-                direccion = math.randint(1,4)
+                direccion = random.randint(1,4)
                 for k in range(0,longitudCamino):
                   puedeDibujar = True
                   if direccion == 1 and (jAct-1) >= 0:
@@ -340,11 +341,13 @@ class Mapa:
                   else:
                     puedeDibujar = False
                   
-                  if puedeDibujar:
+                  if puedeDibujar and self.puntoPerteneceMapa(iAct,jAct):
                     if self.mapa1[jAct][iAct] == 1 or self.mapa1[jAct][iAct] == 7 or self.mapa1[jAct][iAct] == 1:
                       if self.mapa2[jAct][iAct] != 14:
                         self.mapa2[jAct][iAct] = 6
                         self.visual2[jAct][iAct] = random.randint(1,self.nroTile[6])
+              else:
+                terminaCamino = True
                         
                     
     
