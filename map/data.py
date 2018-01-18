@@ -309,9 +309,42 @@ class DataMap():
       "x0":127,
       "y0":1348,
       "x1":192,
-      "y1":1760
+      "y1":1440
     }  
   }  
+  
+  taberna = {
+    "path":"static/img/map/tavern0.png",
+    "n" : 1,
+    "0":{
+      "x0":0,
+      "y0":0,
+      "x1":483,
+      "y1":455
+    }  
+  }  
+  
+  aldea = {
+    "path":"static/img/map/village0.png",
+    "n" : 1,
+    "0":{
+      "x0":0,
+      "y0":0,
+      "x1":518,
+      "y1":311
+    }  
+  }   
+  
+  montanaSagrada = {
+    "path":"static/img/map/mountain1.png",
+    "n" : 1,
+    "0":{
+      "x0":0,
+      "y0":0,
+      "x1":272,
+      "y1":163
+    }  
+  }   
   
   tiles = {
     1 : prado,
@@ -321,11 +354,86 @@ class DataMap():
     5 : bosque,
     6 : montana,
     7 : nieve, #nieve
-    8 : None, #pantano
+    8 : taberna, #taberna
     9 : castillo, #castillo
-    10 : None, #aldea
+    10 : aldea, #aldea
     11 : ciudad, #ciudad
-    12 : None, #templo
+    12 : templo, #templo
     13 : None, #portal
-    14 : montanaNieve
+    14 : montanaNieve,
+    15 : montanaSagrada
   }  
+  
+  vampiro = {
+    "path":"static/img/tile/Vampiro.png",
+    "n" : 1,
+    "0":{
+      "x0":0,
+      "y0":0,
+      "x1":369,
+      "y1":498
+    }     
+  }
+  hombreLobo = {
+    "path":"static/img/tile/Hombre_Lobo.png",
+    "n" : 1,
+    "0":{
+      "x0":0,
+      "y0":0,
+      "x1":982,
+      "y1":1024
+    }     
+  } 
+  
+  demiurgo = {
+    "path":"static/img/tile/selection/Demiurgo.png",
+    "n" : 1,
+    "0":{
+      "x0":0,
+      "y0":0,
+      "x1":450,
+      "y1":600
+    }     
+  }  
+  
+  cazador = {
+    "path":"static/img/tile/selection/Cazador.png",
+    "n" : 1,
+    "0":{
+      "x0":0,
+      "y0":0,
+      "x1":421,
+      "y1":527
+    }     
+  }
+  
+  hechizero = {
+    "path":"static/img/tile/selection/Hechizero.png",
+    "n" : 1,
+    "0":{
+      "x0":0,
+      "y0":0,
+      "x1":842,
+      "y1":842
+    }     
+  }  
+  
+  nigromante = {
+    "path":"static/img/tile/Nigromante.png",
+    "n" : 1,
+    "0":{
+      "x0":0,
+      "y0":0,
+      "x1":900,
+      "y1":1430
+    }     
+  }  
+  
+  avatar = {
+    1 : vampiro,
+    2 : hombreLobo,
+    3 : demiurgo,
+    4 : cazador,
+    5 : hechizero,
+    6 : nigromante
+  }

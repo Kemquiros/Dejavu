@@ -164,13 +164,19 @@ def start_game():
 def get_board():
   if 'token' in session and 'partida' in session:
     partida = dejavu.getPartida(session['partida'])
-    if not partida is None:      
-      return render_template('board.html',
+    avatar = None
+    if not partida is None:   
+      if session['name'] in partida.jugadores:
+        avtr = partida.jugadores[session['name']].avatar
+        if no avtr is None:
+          return render_template('board.html',
                          nombre=session['name'],
                          icono=session['icon'],
+                          avatar = avtr.toJson,
                          turno=partida.turno,
                          tiempo=partida.getTime()
                         )
+  return None
     
 @app.route('/mapa', methods=['GET'])
 def get_mapa():   

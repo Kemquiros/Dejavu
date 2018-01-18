@@ -87,8 +87,8 @@ class Controller:
         #Crear avatar
         idRaza = request.form['raza']
         raza = self.dejavu.razas[str(idRaza)]["nombre"]
-        avatar = get_avatar(raza)
-
+        avatar = self.create_avatar(raza)
+        avatar.setJugador(jugador)
         if partida.puedeAddJugador():
           jugador.setAvatar(avatar)
           jugador.setPartida(partida)
@@ -125,26 +125,31 @@ class Controller:
     return None
   
   def start(self):
-    partida = self.dejavu.getPartida(session['partida'])        
-    partida.estado = "activa"        
+    partida = self.dejavu.getPartida(session['partida'])    
+    partida.comenzarPartida()            
     partida.nuevoTurno()
   
   def getEstadoPartida(self):
     partida = self.dejavu.getPartida(session['partida'])  
     return partida.estado
+  
+  #----------------------------------------
+  #-----------METODOS DEL JUEGO------------
+  #----------------------------------------
+  
     
-def get_avatar(raza):
-  avatar = None
-  if(raza=="Vampiro"):
-    avatar = Vampiro()
-  elif(raza=="Hombre Lobo"):
-    avatar = HombreLobo()
-  elif(raza=="Demiurgo"):
-    avatar = Demiurgo() 
-  elif(raza=="Cazador"):
-    avatar = Cazador()
-  elif(raza=="Hechizero"):
-    avatar = Hechizero()        
-  elif(raza=="Nigromante"):
-    avatar = Nigromante()  
-  return avatar    
+  def create_avatar(self,raza):
+    avatar = None
+    if(raza=="Vampiro"):
+      avatar = Vampiro()
+    elif(raza=="Hombre Lobo"):
+      avatar = HombreLobo()
+    elif(raza=="Demiurgo"):
+      avatar = Demiurgo() 
+    elif(raza=="Cazador"):
+      avatar = Cazador()
+    elif(raza=="Hechizero"):
+      avatar = Hechizero()        
+    elif(raza=="Nigromante"):
+      avatar = Nigromante()  
+    return avatar    

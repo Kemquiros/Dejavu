@@ -13,7 +13,7 @@ class Partida:
     self.numeroJugadores = 0
     self.jugadores = {}
     self.mapa = None
-    self.turnoActual = None
+    self.jugadorActual = None
     self.ordenTurno = None
     self.turno = 0
     self.estado = None
@@ -21,16 +21,29 @@ class Partida:
   def crearMapa(self):
     self.mapa = Mapa(self.numeroJugadoresMax)
     
-  def nuevoTurno(self):
-     self.turno = self.turno + 1
-     self.turnoActual = 0
+  def comenzarPartida(self):
+    self.estado = "activa"
+    self.establecerOrdenTurno()
+    self.mapa.ubicarAvatares(self.ordenTurno,self.jugadores)
+    
+  def establecerOrdenTurno(self):
      self.ordenTurno = []
      llaves = self.jugadores.keys()
      while(len(self.ordenTurno)<len(llaves)):
        nuevo = random.randint(0, len(llaves)-1)
        if not llaves[nuevo] in self.ordenTurno:
-         self.ordenTurno.append(llaves[nuevo])
-       
+         self.ordenTurno.append(llaves[nuevo]) 
+      #Establece a la primera persona
+      self.jugadorActual = 0
+      self.nuevoTurno()
+                           
+  def nuevoTurno(self):
+    self.turno = self.turno + 1    
+    
+  def siguienteJugador(self):
+    self.jugadorActual += 1 % self.numeroJugadores
+    if self.jugadorActual == 0:
+      self.nuevoTurno()
   
   def addJugador(self,jugador):
     if not jugador.nombre in self.jugadores:

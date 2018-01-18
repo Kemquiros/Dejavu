@@ -6,12 +6,22 @@ import math
 from morfologia import dilate, erode
 from data import DataMap
 from castillo import Castillo
+from templo import Templo
+from taberna import Taberna
 
 class Mapa:
   
   data = DataMap()
   
-  traslacionCapa = {1:"prado",2:"oceano",3:"rio",4:"camino",5:"bosque",6:"montana",7:"nieve",8:"pantano",9:"castillo",10:"aldea",11:"ciudad",12:"templo",13:"portal",14:"montana-nieve"}
+  traslacionCapa = {1:"prado",2:"oceano",3:"rio",4:"camino",5:"bosque",6:"montana",7:"nieve",8:"taberna",9:"castillo",10:"aldea",11:"ciudad",12:"templo",13:"portal",14:"montana-nieve",15:"montana-sagrada"}
+  traslacionAvatar = {
+    "Vampiro" : 1,
+    "Hombre Lobo" : 2,
+    "Demiurgo" : 3,
+    "Cazador" : 4,
+    "Hechizero" : 5,
+    "Nigromante" : 6
+  }
   nroTile = {
     1:data.tiles[1]["n"],
     2:data.tiles[2]["n"],
@@ -20,9 +30,13 @@ class Mapa:
     5:data.tiles[5]["n"],
     6:data.tiles[6]["n"],
     7:data.tiles[7]["n"],
+    8:data.tiles[8]["n"],
     9:data.tiles[9]["n"],
+    10:data.tiles[10]["n"],
     11:data.tiles[11]["n"],
-    14:data.tiles[14]["n"]
+    12:data.tiles[12]["n"],
+    14:data.tiles[14]["n"],
+    15:data.tiles[15]["n"]
   }
   
   def __init__(self,numeroJugadores):
@@ -36,7 +50,12 @@ class Mapa:
     self.mapa3 = np.zeros((self.nroFilas,self.nroColumnas))
     self.visual1 = np.zeros((self.nroFilas,self.nroColumnas))
     self.visual2 = np.zeros((self.nroFilas,self.nroColumnas))
+    self.visual3 = np.zeros((self.nroFilas,self.nroColumnas))
     self.castillos = {}
+    self.templos = {}
+    self.tabernas = {}
+    self.aldeas = {}
+    self.portales = {}
     self.crearMapa()
     
   def crearMapa(self):
@@ -47,9 +66,28 @@ class Mapa:
     self.crearMontana()
     self.crearCiudad()#self.crearCamino()        
     self.crearCastillo()
-    #self.crearTemplo()
+    self.crearTemplo()
+    self.asignarReliquias()
+    self.crearTaberna()
+    self.crearMontanaSagrada()
     
     
+  def ubicarAvatares(self,orden,jugadores):
+    ubicados = 0
+    nroCastillos = len(self.castillos)
+    while(ubicados < len(orden) ):
+      for c in range(0,nroCastillos):
+          if(random.randint(1,len(castillos))==1):
+            if self.castillos[c].propietario is None:
+              castillo = self.castillos[c]
+              nombreJugador = orden[ubicados]
+              jugador = jugadores[nombreJugador]
+              jugador.avatar.asignarPrimerCastillo(castillo)              
+              ubicados +=1
+              #Dibujar
+              self.mapa3[castillo.fila][castillo.columna] = traslacionAvatar[jugador.avatar.raza]
+              self.visual3[castillo.fila][castillo.columna] = 0
+            
     
   
   def crearPrado(self):
@@ -416,3 +454,61 @@ class Mapa:
                   self.mapa2[j][i] = 9
                   self.visual2[j][i] = random.randint(1,self.nroTile[9]) -1
                   self.castillos[len(self.castillos)] = Castillo(j,i)
+                  
+  def crearTemplo(self):
+    nroTemplosMax = self.nroJugadores * 2       
+    while(len(self.templos) < nroTemplosMax):
+      for i in range(0,self.nroColumnas):
+          for j in range(0,self.nroFilas):
+            probabilidad = random.randint(1,400*int(self.nroJugadores/4))
+            if( probabilidad <= 1 ): 
+              #Prado o nieve
+              if( self.mapa1[j][i] == 1 or self.mapa1[j][i] == 7 ):
+                #No contiene nada o es un arbol
+                if( self.mapa2[j][i] == 0 or self.mapa2[j][i] == 5 ):
+                  self.mapa2[j][i] = 12
+                  self.visual2[j][i] = random.randint(1,self.nroTile[12]) -1
+                  self.templos[len(self.templos)] = Templo(j,i)     
+
+  def asignarReliquias(self):
+    nroReliquiasMax = self.nroJugadores
+    nroReliquias = 0
+    while(nroReliquias<nroReliquiasMax):
+      for i in range(0,len(self.templos)):
+        if(self.templos[i].reliquia is None):
+          if(random.randint(1,100)<=25):
+            nroReliquias += 1
+            self.templos[i].reliquia = nroReliquias
+            
+  def crearTaberna(self):
+    nroTabernasMax = self.nroJugadores       
+    while(len(self.tabernas) < nroTabernasMax):
+      for i in range(0,self.nroColumnas):
+          for j in range(0,self.nroFilas):
+            probabilidad = random.randint(1,400*int(self.nroJugadores/4))
+            if( probabilidad <= 2 ): 
+              #Prado o nieve
+              if( self.mapa1[j][i] == 1 or self.mapa1[j][i] == 7 ):
+                #No contiene nada o es un arbol
+                if( self.mapa2[j][i] == 0 or self.mapa2[j][i] == 5 ):
+                  self.mapa2[j][i] = 8
+                  self.visual2[j][i] = random.randint(1,self.nroTile[8]) -1
+                  self.tabernas[len(self.tabernas)] = Taberna(j,i)    
+                  
+  def crearMontanaSagrada(self):
+    contador = 0      
+    numeroCasillas = math.pow(self.nroJugadores,2)* math.pow(self.data.promMovimiento,2)
+    while(contador < 1):
+      for i in range(0,self.nroColumnas):
+          for j in range(0,self.nroFilas):
+            #El numero total de casillas
+            probabilidad = random.randint(1,numeroCasillas)
+            if( probabilidad <= 1 ):
+              #Prado o nieve
+              if( self.mapa1[j][i] == 1 or self.mapa1[j][i] == 7 ):
+                #No contiene nada o es un arbol
+                if( self.mapa2[j][i] == 0 or self.mapa2[j][i] == 5 ):
+                  self.mapa2[j][i] = 15
+                  self.visual2[j][i] = random.randint(1,self.nroTile[15]) -1 
+                  contador += 1
+            
