@@ -1,11 +1,11 @@
 class DataMap():
-  tamColumnas = 40
-  tamFilas = 40
+  tamColumnas = 60
+  tamFilas = 60
   promMovimiento = 7
   
   prado = {
     "path":"static/img/map/tiles1.png",
-    "n" : 1,
+    "n" : 4,
     "0":{
       "x0":0,
       "y0":0,
@@ -209,16 +209,109 @@ class DataMap():
     }
   }
   
+  ciudad = {
+    "path":"static/img/map/tiles2.png",
+    "n" : 4,
+    "0":{
+      "x0":129,
+      "y0":161,
+      "x1":178,
+      "y1":209
+    },  
+    "1":{
+      "x0":14,
+      "y0":582,
+      "x1":67,
+      "y1":636
+    }, 
+    "2":{
+      "x0":125,
+      "y0":1441,
+      "x1":164,
+      "y1":1505
+    },
+    "3":{
+      "x0":2,
+      "y0":1035,
+      "x1":58,
+      "y1":1086
+    }     
+  }    
+  
   montanaNieve = {
     "path":"static/img/map/mountain3.png",
     "n" : 1,
     "0":{
       "x0":0,
       "y0":0,
-      "x1":825,
-      "y1":469
+      "x1":332,
+      "y1":354
     }  
   }
+  
+  castillo = {
+    "path":"static/img/map/castle0.png",
+    "n" : 8,
+    "0":{
+      "x0":32,
+      "y0":436,
+      "x1":309,
+      "y1":720
+    },  
+    "1":{
+      "x0":363,
+      "y0":453,
+      "x1":599,
+      "y1":676
+    }, 
+    "2":{
+      "x0":582,
+      "y0":146,
+      "x1":863,
+      "y1":395
+    },
+    "3":{
+      "x0":925,
+      "y0":118,
+      "x1":1650,
+      "y1":756
+    },
+    "4":{
+      "x0":1794,
+      "y0":134,
+      "x1":2364,
+      "y1":688
+    },
+    "5":{
+      "x0":2394,
+      "y0":30,
+      "x1":3158,
+      "y1":698
+    },
+    "6":{
+      "x0":3136,
+      "y0":21,
+      "x1":3841,
+      "y1":717
+    },
+    "7":{
+      "x0":3866,
+      "y0":1,
+      "x1":4738,
+      "y1":748
+    }
+  }      
+  
+  templo = {
+    "path":"static/img/map/tiles2.png",
+    "n" : 1,
+    "0":{
+      "x0":127,
+      "y0":1348,
+      "x1":192,
+      "y1":1760
+    }  
+  }  
   
   tiles = {
     1 : prado,
@@ -229,9 +322,9 @@ class DataMap():
     6 : montana,
     7 : nieve, #nieve
     8 : None, #pantano
-    9 : None, #castillo
+    9 : castillo, #castillo
     10 : None, #aldea
-    11 : None, #ciudad
+    11 : ciudad, #ciudad
     12 : None, #templo
     13 : None, #portal
     14 : montanaNieve
