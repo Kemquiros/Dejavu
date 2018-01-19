@@ -26,21 +26,21 @@ $( window ).on('load',function() {
   //Dibujar capas
   jQuery.get('/mapa', function(data, status){
       datos = data;
-      images = cargarImagenes(datos);
+      images = cargarImagenes();
       setTimeout(relojDibujar, 1500);
   });
   //Establecer timer para actualizar el tiempo
 });
 
 function relojDibujar(){
-   iniciarDatos(datos);
+   iniciarDatos();
    establecerListener();
-   dibujarTablero(datos);
-   dibujarAvatares(datos);
-   centrarCamara(datos);
+   dibujarTablero();
+   dibujarAvatares();
+   centrarCamara();
 }
 
-function iniciarDatos(data){
+function iniciarDatos(){
    capa1 = document.getElementById("layer1");
    contexto1 = capa1.getContext("2d");
    capa2 = document.getElementById("layer2");
@@ -49,11 +49,11 @@ function iniciarDatos(data){
    contexto3 = capa3.getContext("2d");
 
 
-   nroFilas = data.nroFil;
-   nroColumnas = data.nroCol;
+   nroFilas = datos.nroFil;
+   nroColumnas = datos.nroCol;
 
-   tamCol = data.tamCol;
-   tamFil = data.tamFil;
+   tamCol = datos.tamCol;
+   tamFil = datos.tamFil;
 
    capa1.width = nroColumnas * tamCol;
    capa1.height = nroFilas * tamFil;
@@ -67,10 +67,17 @@ function iniciarDatos(data){
    maxDespY = capa1.height- contenedorCanvas.clientHeight;
 }
 
-function dibujarTablero(data){
+function limpiarTablero(){
+   contexto1.clearRect(0, 0, capa1.width, capa1.height);
+   contexto2.clearRect(0, 0, capa1.width, capa1.height);
+   contexto3.clearRect(0, 0, capa1.width, capa1.height);
+}
+
+function dibujarTablero(){
+   limpiarTablero();
   //Mapa
-  var M = [data.mapa1,data.mapa2];
-  var V = [data.visual1,data.visual2];
+  var M = [datos.mapa1,datos.mapa2];
+  var V = [datos.visual1,datos.visual2];
   var C = [contexto1,contexto2];
 
   for(c=0; c < C.length; c++){
@@ -81,7 +88,7 @@ function dibujarTablero(data){
     for(i=0; i<nroColumnas; i++){
       for(j=0 ; j<nroFilas; j++){
         if(mapa[j][i]!=0){
-          var tile = data.tiles[mapa[j][i]];
+          var tile = datos.tiles[mapa[j][i]];
           var baldosa = tile[visual[j][i]];
           if(baldosa === undefined){console.log("i:",i,"  j:",j,"  c:",c," mapa[j][i]:",mapa[j][i]," visual[j][i]:",visual[j][i]);}
           contexto.drawImage(images[tile['path']], baldosa["x0"], baldosa["y0"], baldosa["x1"]-baldosa["x0"], baldosa["y1"]-baldosa["y0"], i*tamCol, j*tamFil, tamCol, tamFil);
@@ -91,10 +98,10 @@ function dibujarTablero(data){
   }
 }
 
-function dibujarAvatares(data){
+function dibujarAvatares(){
    //Avatares
-   var M = [data.mapa3];
-   var V = [data.visual3];
+   var M = [datos.mapa3];
+   var V = [datos.visual3];
    var C = [contexto3];
 
    for(c=0; c < C.length; c++){
@@ -105,7 +112,7 @@ function dibujarAvatares(data){
      for(i=0; i<nroColumnas; i++){
        for(j=0 ; j<nroFilas; j++){
          if(mapa[j][i]!=0){
-           var tile = data.avatares[mapa[j][i]];
+           var tile = datos.avatares[mapa[j][i]];
            var baldosa = tile[visual[j][i]];
            if(baldosa === undefined){console.log("i:",i,"  j:",j,"  c:",c," mapa[j][i]:",mapa[j][i]," visual[j][i]:",visual[j][i]);}
            contexto.drawImage(images[tile['path']], baldosa["x0"], baldosa["y0"], baldosa["x1"]-baldosa["x0"], baldosa["y1"]-baldosa["y0"], i*tamCol, j*tamFil, tamCol, tamFil);
@@ -115,8 +122,8 @@ function dibujarAvatares(data){
    }
 }
 
-function centrarCamara(data){
-   var ubicacion = data.ubicacion;
+function centrarCamara(){
+   var ubicacion = datos.ubicacion;
    //Ubicacion del personaje
    var delta = (-1)*ubicacion['x']* tamCol;
    var gamma = (-1)*ubicacion['y']* tamCol;
@@ -124,26 +131,31 @@ function centrarCamara(data){
    delta += contenedorCanvas.clientWidth / 2;
    gamma += contenedorCanvas.clientHeight / 2;
 
-   if( marginLeft + delta > 0 ){
+   if( delta > 0 ){
       //Se sale por la izquierda
       marginLeft = 0;
-   }else if( marginLeft + delta < (-1)*(maxDespX) ){
+   }else if( delta < (-1)*(maxDespX) ){
       //Se sale por la derecha
-      marginLeft = maxDespX;
+      marginLeft = (-1)*maxDespX;
    }else{
-      marginLeft += delta;
+      marginLeft = delta;
    }
 
-   if( marginTop + gamma > 0 ){
+   if( gamma > 0 ){
       //Se sale por arriba
       marginTop = 0;
-   }else if( marginTop + gamma < (-1)*(maxDespY) ){
+   }else if( gamma < (-1)*(maxDespY) ){
       //Se sale por abajo
-      marginTop = maxDespY;
+      marginTop = (-1)*maxDespY;
    }else{
-      marginTop += gamma;
+      marginTop = gamma;
    }
 
+   moverMargenes();
+
+}
+
+function moverMargenes(){
    capa1.style.marginLeft = marginLeft + "px";
    capa2.style.marginLeft = marginLeft + "px";
    capa3.style.marginLeft = marginLeft + "px";
@@ -151,8 +163,41 @@ function centrarCamara(data){
    capa1.style.marginTop = marginTop + "px";
    capa2.style.marginTop = marginTop + "px";
    capa3.style.marginTop = marginTop + "px";
-
 }
+
+function aumentarTablero(){
+   var proporcionX = marginLeft/datos.tamCol;
+   var proporcionY = marginTop/datos.tamFil;
+   datos.tamCol = datos.tamCol + 20;
+   datos.tamFil = datos.tamFil + 20;
+   iniciarDatos();
+   dibujarTablero();
+   dibujarAvatares();
+
+   marginLeft = proporcionX * datos.tamCol;
+   marginTop = proporcionY * datos.tamFil;
+
+   moverMargenes();
+}
+
+
+function disminuirTablero(){
+   var proporcionX = marginLeft/datos.tamCol;
+   var proporcionY = marginTop/datos.tamFil;
+
+   datos.tamCol = datos.tamCol - 20;
+   datos.tamFil = datos.tamFil - 20;
+   iniciarDatos();
+   dibujarTablero();
+   dibujarAvatares();
+
+   marginLeft = proporcionX * datos.tamCol;
+   marginTop = proporcionY * datos.tamFil;
+
+   moverMargenes();
+}
+
+
 function establecerListener(){
 
    function presionaMouse(e){
@@ -179,16 +224,12 @@ function establecerListener(){
 
          if( ( marginLeft + delta <= 0 ) && ( marginLeft + delta >= (-1)*(maxDespX) ) ){
             marginLeft += delta;
-            capa1.style.marginLeft = marginLeft + "px";
-            capa2.style.marginLeft = marginLeft + "px";
-            capa3.style.marginLeft = marginLeft + "px";
          }
          if( ( marginTop + gamma <= 0 ) && ( marginTop + gamma >= (-1)*(maxDespY) ) ){
             marginTop += gamma;
-            capa1.style.marginTop = marginTop + "px";
-            capa2.style.marginTop = marginTop + "px";
-            capa3.style.marginTop = marginTop + "px";
          }
+
+         moverMargenes();
 
       }
    }
@@ -210,31 +251,31 @@ function establecerListener(){
    capa3.addEventListener('mousemove', mueveMouse);
 }
 
-function cargarImagenes(data){
+function cargarImagenes(){
   resul = {};
   //Por cada llave en tiles
-  for (key in data.tiles){
+  for (key in datos.tiles){
     //Verifica que la llave tenga contenido
-    if(data.tiles[key] != null){
+    if(datos.tiles[key] != null){
       //Si la llave no esta en resul
-      if (!(data.tiles[key]['path'] in resul)){
+      if (!(datos.tiles[key]['path'] in resul)){
         var image = new Image();
-        image.src = data.tiles[key]['path'];
+        image.src = datos.tiles[key]['path'];
         //Agrega un nuevo resultado
-        resul[data.tiles[key]['path']] = image;
+        resul[datos.tiles[key]['path']] = image;
       }
     }
   }
   //Por cada llave en avatares
-  for (key in data.avatares){
+  for (key in datos.avatares){
     //Verifica que la llave tenga contenido
-    if(data.avatares[key] != null){
+    if(datos.avatares[key] != null){
       //Si la llave no esta en resul
-      if (!(data.avatares[key]['path'] in resul)){
+      if (!(datos.avatares[key]['path'] in resul)){
         var image = new Image();
-        image.src = data.avatares[key]['path'];
+        image.src = datos.avatares[key]['path'];
         //Agrega un nuevo resultado
-        resul[data.avatares[key]['path']] = image;
+        resul[datos.avatares[key]['path']] = image;
       }
     }
   }
