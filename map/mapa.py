@@ -515,3 +515,4 @@ class Mapa:
                   self.mapa2[j][i] = 15
                   self.visual2[j][i] = random.randint(1,self.nroTile[15]) -1
                   contador += 1
+                  return None
