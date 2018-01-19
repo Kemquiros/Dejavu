@@ -1,6 +1,6 @@
 class DataMap():
-  tamColumnas = 60
-  tamFilas = 60
+  tamColumnas = 120
+  tamFilas = 120
   promMovimiento = 7
 
   prado = {

@@ -177,6 +177,21 @@ function aumentarTablero(){
    marginLeft = proporcionX * datos.tamCol;
    marginTop = proporcionY * datos.tamFil;
 
+   if( marginLeft > 0 ){
+      //Se sale por arriba
+      marginLeft = 0;
+   }else if( marginLeft < (-1)*(maxDespX) ){
+      //Se sale por abajo
+      marginLeft = (-1)*maxDespX;
+   }
+   if( marginTop > 0 ){
+      //Se sale por arriba
+      marginTop = 0;
+   }else if( marginTop < (-1)*(maxDespY) ){
+      //Se sale por abajo
+      marginTop = (-1)*maxDespY;
+   }
+
    moverMargenes();
 }
 
@@ -193,6 +208,21 @@ function disminuirTablero(){
 
    marginLeft = proporcionX * datos.tamCol;
    marginTop = proporcionY * datos.tamFil;
+
+   if( marginLeft > 0 ){
+      //Se sale por arriba
+      marginLeft = 0;
+   }else if( marginLeft < (-1)*(maxDespX) ){
+      //Se sale por abajo
+      marginLeft = (-1)*maxDespX;
+   }
+   if( marginTop > 0 ){
+      //Se sale por arriba
+      marginTop = 0;
+   }else if( marginTop < (-1)*(maxDespY) ){
+      //Se sale por abajo
+      marginTop = (-1)*maxDespY;
+   }   
 
    moverMargenes();
 }
