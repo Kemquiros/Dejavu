@@ -226,6 +226,7 @@ def get_mapa():
     de las diferentes capas del mapa como un JSON '''
     if 'token' in session and 'partida' in session:
         partida = DEJAVU.getPartida(session['partida'])
+        jugador = partida.getJugador(session['name'])
         if not partida is None:
             return jsonify(
             {
@@ -240,7 +241,8 @@ def get_mapa():
             "mapa3" : partida.mapa.mapa3.tolist(),
             "visual1" : partida.mapa.visual1.tolist(),
             "visual2" : partida.mapa.visual2.tolist(),
-            "visual3" : partida.mapa.visual3.tolist()
+            "visual3" : partida.mapa.visual3.tolist(),
+            "ubicacion" : jugador.avatar.ubicacion
             }
             )
     return None
