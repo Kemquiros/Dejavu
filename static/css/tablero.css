@@ -59,3 +59,18 @@ li .navbar-text:last-child{
    position: relative;
    z-index: 2;
 }
+#vista-equipo{
+   display: none;
+}
+#vista-inventario{
+   display: none;
+}
+#vista-propiedades{
+   display: none;
+}
+#vista-jugar{
+   display: none;
+}
+#vista-estado{
+   display: none;
+}
