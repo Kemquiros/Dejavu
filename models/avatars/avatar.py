@@ -18,6 +18,8 @@ class Avatar(object):
         self.mochila = []
         self.monedas = 0
         self.herramientas = 0
+        self.nroReliquias = 0
+        self.nroPropiedades = 0
         self.reliquias = []
         self.propiedades = {
         "castillos" : [],
@@ -54,7 +56,9 @@ class Avatar(object):
         "mochila" : self.mochila,
         "monedas" : self.monedas,
         "herramientas" : self.herramientas,
+        "nroReliquias" : self.nroReliquias,
         "reliquias" : self.reliquias,
+        "nroPropiedades" : self.nroPropiedades,
         "propiedades" : self.propiedades
         }
 

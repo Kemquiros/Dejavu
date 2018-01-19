@@ -12,6 +12,7 @@
 
     <link rel="shortcut icon" type="image/svg" href="static/img/icono.svg"/>
     <link href="static/css/tablero.css" rel="stylesheet">
+    <script src="static/js/avatar.js"></script>
     <script src="static/js/board.js"></script>
 
   </head>
@@ -31,22 +32,32 @@
                 {{ jugador.nombre }}
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="#">Equipo</a>
-                <a class="dropdown-item" href="#">Inventario</a>
+                 <a class="dropdown-item" href="#" onclick="verAvatar()">Avatar</a>
+                 <a class="dropdown-item" href="#" onclick="verEquipo()">Equipo</a>
+                 <a class="dropdown-item" href="#" onclick="verInventario()">Inventario</a>
+                 <a class="dropdown-item" href="#" onclick="verPropiedades()">Propiedades</a>
               </div>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle"  id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor: pointer;">
-                Tablero
+                Partida
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="#" onclick="centrarCamara()">Centrar</a>
-                <a class="dropdown-item" href="#" onclick="aumentarTablero()">+</a>
-                <a class="dropdown-item" href="#" onclick="disminuirTablero()">-</a>
+                <a class="dropdown-item" href="#" onclick="verJugar()">Jugar</a>
+                <a class="dropdown-item" href="#" onclick="verEstado()">Estado</a>
               </div>
             </li>
           </ul>
           <ul class="navbar-nav ml-auto">
+             <li>
+                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" onclick="centrarCamara()">Centrar</button>
+             </li>
+             <li>
+                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" onclick="disminuirTablero()">-</button>
+             </li>
+             <li>
+                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" onclick="aumentarTablero()">+</button>
+             </li>
             <li>
               <span class="navbar-text">
                 Turno #{{turno}}
@@ -76,7 +87,7 @@
         <!-- Fila superior  -->
         <div class="row">
           <div class="col-lg-12 panel-nombre">
-            <h3>{{jugador.nombre}} / {{jugador.avatar.raza}}</h3>
+            <h3 id="panel-nombre">{{jugador.nombre}} / {{jugador.avatar.raza}}</h3>
           </div>
         </div>
 
@@ -90,112 +101,167 @@
         </div>
 
         <!-- Fila inferior  -->
-        <div class="row">
+        <div id="fila-inferior" class="row">
+           <div class="col-lg-12">
 
-          <!-- Atributos -->
-          <div class="col-lg-6">
-            Ataque<br>
-             <div class="progress">
-               <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar"
-               aria-valuenow="{{ jugador.avatar.ataque }}" aria-valuemin="0" aria-valuemax="6" style="width:{{ (jugador.avatar.ataque/6)*100 |int }}%">
-                 {{ jugador.avatar.ataque }}
+              <!-- Avatar-->
+              <div id="vista-avatar" class="row">
+                 <div class="col-lg-12">
+                   <!-- Primera Fila Avatar -->
+                   <div class="row">
+                     <div class="col-lg-12">
+                        Ataque<br>
+                        <div class="progress">
+                           <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar"
+                           aria-valuenow="{{ jugador.avatar.ataque }}" aria-valuemin="0" aria-valuemax="6" style="width:{{ (jugador.avatar.ataque/6)*100 |int }}%">
+                             {{ jugador.avatar.ataque }}
+                           </div>
+                        </div>
+
+                         Destreza<br>
+                         <div class="progress">
+                           <div class="progress-bar progress-bar-striped bg-info progress-bar-animated"
+                           role="progressbar" aria-valuenow="{{ jugador.avatar.destreza }}"
+                           aria-valuemin="0" aria-valuemax="6" style="width:{{ (jugador.avatar.destreza/6)*100 |int }}%">
+                             {{ jugador.avatar.destreza }}
+                           </div>
+                        </div>
+
+                         Daño<br>
+                         <div class="progress">
+                           <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar"
+              aria-valuenow="{{ jugador.avatar.dano }}" aria-valuemin="0" aria-valuemax="6" style="width:{{ (jugador.avatar.dano/6)*100 |int }}%">
+                             {{ jugador.avatar.dano }}
+                           </div>
+                        </div>
+
+                         Defensa<br>
+                         <div class="progress">
+                           <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar"
+              aria-valuenow="{{ jugador.avatar.defensa }}" aria-valuemin="0" aria-valuemax="6" style="width:{{ (jugador.avatar.defensa/6)*100 |int }}%">
+                             {{ jugador.avatar.defensa }}
+                           </div>
+                        </div>
+
+                         Vida<br>
+                         <div class="progress">
+                           <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar"
+              aria-valuenow="{{ jugador.avatar.vida }}" aria-valuemin="0" aria-valuemax="{{ jugador.avatar.vidaMax*7 }}" style="width:{{ (jugador.avatar.vida/jugador.avatar.vidaMax)*100 |int }}%">
+                             {{ jugador.avatar.vida*7 }}
+                           </div>
+                        </div>
+
+                         Movimiento<br>
+                         <div class="progress">
+                           <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+              aria-valuenow="{{ jugador.avatar.movimiento }}" aria-valuemin="0" aria-valuemax="{{ jugador.avatar.movimientoMax }}" style="width:{{ (jugador.avatar.movimiento/jugador.avatar.movimientoMax)*100 |int }}%">
+                             {{ jugador.avatar.movimiento }}
+                           </div>
+                        </div>
+                     </div>
+                  </div><!-- Fin Primera Fila Avatar -->
+                  <div class="row">
+                     <div class="col-lg-12">
+                        <div class="row">
+                           Reliquias: {{ jugador.avatar.nroReliquias }}
+                        </div>
+                        <div class="row">
+                           Monedas: {{ jugador.avatar.monedas }}
+                        </div>
+                        <div class="row">
+                           Herramientas: {{ jugador.avatar.herramientas }}
+                        </div>
+                        <div class="row">
+                           Propiedades: {{ jugador.avatar.nroPropiedades }}
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div> <!-- Fin Avatar -->
+
+            <!-- Equipo -->
+            <div id="vista-equipo" class="row">
+               <div class="col-lg-12">
                </div>
             </div>
 
-             Destreza<br>
-             <div class="progress">
-               <div class="progress-bar progress-bar-striped bg-info progress-bar-animated"
-               role="progressbar" aria-valuenow="{{ jugador.avatar.destreza }}"
-               aria-valuemin="0" aria-valuemax="6" style="width:{{ (jugador.avatar.destreza/6)*100 |int }}%">
-                 {{ jugador.avatar.destreza }}
+            <!-- Inventario -->
+            <div id="vista-inventario" class="row">
+               <div class="col-lg-12">
                </div>
             </div>
 
-             Daño<br>
-             <div class="progress">
-               <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar"
-  aria-valuenow="{{ jugador.avatar.dano }}" aria-valuemin="0" aria-valuemax="6" style="width:{{ (jugador.avatar.dano/6)*100 |int }}%">
-                 {{ jugador.avatar.dano }}
+            <!-- Propiedades -->
+            <div id="vista-propiedades" class="row">
+               <div class="col-lg-12">
                </div>
             </div>
 
-             Defensa<br>
-             <div class="progress">
-               <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar"
-  aria-valuenow="{{ jugador.avatar.defensa }}" aria-valuemin="0" aria-valuemax="6" style="width:{{ (jugador.avatar.defensa/6)*100 |int }}%">
-                 {{ jugador.avatar.defensa }}
+            <!-- Jugar -->
+            <div id="vista-jugar" class="row">
+               <div class="col-lg-12">
+                <!-- Botones movimiento -->
+                <div class="row">
+
+                   <div class="col-lg-2"></div>
+                   <div class="col-lg-8">
+
+                     <!-- Fila 1 -->
+                     <div class="row fila-mov">
+                       <div class="col-lg-4 col-mov">
+                         <button type="button" class="btn btn-outline-warning btn-mover">&#8662;</button>
+                       </div>
+                       <div class="col-lg-4 col-mov">
+                         <button type="button" class="btn btn-outline-warning btn-mover">&#8657;</button>
+                       </div>
+                       <div class="col-lg-4 col-mov">
+                         <button type="button" class="btn btn-outline-warning btn-mover">&#8663;</button>
+                       </div>
+                     </div>
+
+                     <!-- Fila 2 -->
+                     <div class="row">
+                       <div class="col-lg-4 col-mov">
+                         <button type="button" class="btn btn-outline-warning btn-mover">&#8656;</button>
+                       </div>
+                       <div class="col-lg-4 col-mov">
+                       </div>
+                       <div class="col-lg-4 col-mov">
+                         <button type="button" class="btn btn-outline-warning btn-mover">&#8658;</button>
+                       </div>
+                     </div>
+
+                     <!-- Fila 3 -->
+                     <div class="row">
+                       <div class="col-lg-4 col-mov">
+                         <button type="button" class="btn btn-outline-warning btn-mover">&#8665;</button>
+                       </div>
+                       <div class="col-lg-4 col-mov">
+                         <button type="button" class="btn btn-outline-warning btn-mover">&#8659;</button>
+                       </div>
+                       <div class="col-lg-4 col-mov">
+                         <button type="button" class="btn btn-outline-warning btn-mover">&#8664;</button>
+                       </div>
+                     </div>
+
+                   </div>
+                   <div class="col-lg-2"></div>
+
+                  </div> <!-- Fin Botones movimiento -->
+
                </div>
-            </div>
+             </div> <!-- Fin Jugar -->
 
-             Vida<br>
-             <div class="progress">
-               <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar"
-  aria-valuenow="{{ jugador.avatar.vida }}" aria-valuemin="0" aria-valuemax="{{ jugador.avatar.vidaMax*7 }}" style="width:{{ (jugador.avatar.vida/jugador.avatar.vidaMax)*100 |int }}%">
-                 {{ jugador.avatar.vida*7 }}
-               </div>
-            </div>
+             <!-- Estado partida -->
+             <div id="vista-estado" class="row">
+                <div class="col-lg-12">
+                </div>
+             </div>
 
-             Movimiento<br>
-             <div class="progress">
-               <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-  aria-valuenow="{{ jugador.avatar.movimiento }}" aria-valuemin="0" aria-valuemax="{{ jugador.avatar.movimientoMax }}" style="width:{{ (jugador.avatar.movimiento/jugador.avatar.movimientoMax)*100 |int }}%">
-                 {{ jugador.avatar.movimiento }}
-               </div>
-            </div>
+         </div>
+      </div> <!-- Fin Fila Inferior -->
 
-          </div>
-
-          <!-- Botones movimiento -->
-          <div class="col-lg-6">
-
-            <!-- Fila 1 -->
-            <div class="row fila-mov">
-              <div class="col-lg-4 col-mov">
-                <button type="button" class="btn btn-outline-warning btn-mover">&#8662;</button>
-              </div>
-              <div class="col-lg-4 col-mov">
-                <button type="button" class="btn btn-outline-warning btn-mover">&#8657;</button>
-              </div>
-              <div class="col-lg-4 col-mov">
-                <button type="button" class="btn btn-outline-warning btn-mover">&#8663;</button>
-              </div>
-            </div>
-
-            <!-- Fila 2 -->
-            <div class="row">
-              <div class="col-lg-4 col-mov">
-                <button type="button" class="btn btn-outline-warning btn-mover">&#8656;</button>
-              </div>
-              <div class="col-lg-4 col-mov">
-              </div>
-              <div class="col-lg-4 col-mov">
-                <button type="button" class="btn btn-outline-warning btn-mover">&#8658;</button>
-              </div>
-            </div>
-
-            <!-- Fila 3 -->
-            <div class="row">
-              <div class="col-lg-4 col-mov">
-                <button type="button" class="btn btn-outline-warning btn-mover">&#8665;</button>
-              </div>
-              <div class="col-lg-4 col-mov">
-                <button type="button" class="btn btn-outline-warning btn-mover">&#8659;</button>
-              </div>
-              <div class="col-lg-4 col-mov">
-                <button type="button" class="btn btn-outline-warning btn-mover">&#8664;</button>
-              </div>
-            </div>
-
-            <!-- Fila 4 -->
-            <div class="row">
-              <div class="col-lg-12">
-                <button type="button" class="btn btn-danger btn-atacar">Atacar</button>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
+     </div> <!--Fin Izquierda --> 
 
       <!-- Medio -->
       <div id="contenedor-canvas" class="col-lg-8 contenedor-canvas">

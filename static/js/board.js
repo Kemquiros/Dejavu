@@ -33,6 +33,7 @@ $( window ).on('load',function() {
 });
 
 function relojDibujar(){
+   verAvatar();
    iniciarDatos();
    establecerListener();
    dibujarTablero();
@@ -128,8 +129,12 @@ function centrarCamara(){
    var delta = (-1)*ubicacion['x']* tamCol;
    var gamma = (-1)*ubicacion['y']* tamCol;
    //Se ubica el personaje en la pantalla
+   //Primero: se asume el canvas
    delta += contenedorCanvas.clientWidth / 2;
    gamma += contenedorCanvas.clientHeight / 2;
+   //Segundo: se asume la baldosa
+   delta -= tamCol / 2;
+   gamma -= tamFil / 2;
 
    if( delta > 0 ){
       //Se sale por la izquierda
@@ -222,7 +227,7 @@ function disminuirTablero(){
    }else if( marginTop < (-1)*(maxDespY) ){
       //Se sale por abajo
       marginTop = (-1)*maxDespY;
-   }   
+   }
 
    moverMargenes();
 }
