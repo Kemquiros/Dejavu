@@ -27,15 +27,15 @@ class Partida:
     self.mapa.ubicarAvatares(self.ordenTurno,self.jugadores)
     
   def establecerOrdenTurno(self):
-     self.ordenTurno = []
-     llaves = self.jugadores.keys()
-     while(len(self.ordenTurno)<len(llaves)):
-       nuevo = random.randint(0, len(llaves)-1)
-       if not llaves[nuevo] in self.ordenTurno:
-         self.ordenTurno.append(llaves[nuevo]) 
-      #Establece a la primera persona
-      self.jugadorActual = 0
-      self.nuevoTurno()
+    self.ordenTurno = []
+    llaves = self.jugadores.keys()
+    while(len(self.ordenTurno)<len(llaves)):
+     nuevo = random.randint(0, len(llaves)-1)
+     if not llaves[nuevo] in self.ordenTurno:
+       self.ordenTurno.append(llaves[nuevo]) 
+    #Establece a la primera persona
+    self.jugadorActual = 0
+    self.nuevoTurno()
                            
   def nuevoTurno(self):
     self.turno = self.turno + 1    

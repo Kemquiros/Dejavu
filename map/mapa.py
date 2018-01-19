@@ -10,9 +10,9 @@ from templo import Templo
 from taberna import Taberna
 
 class Mapa:
-  
+
   data = DataMap()
-  
+
   traslacionCapa = {1:"prado",2:"oceano",3:"rio",4:"camino",5:"bosque",6:"montana",7:"nieve",8:"taberna",9:"castillo",10:"aldea",11:"ciudad",12:"templo",13:"portal",14:"montana-nieve",15:"montana-sagrada"}
   traslacionAvatar = {
     "Vampiro" : 1,
@@ -38,7 +38,7 @@ class Mapa:
     14:data.tiles[14]["n"],
     15:data.tiles[15]["n"]
   }
-  
+
   def __init__(self,numeroJugadores):
     self.nroJugadores = numeroJugadores
     self.nroFilas = self.nroJugadores * self.data.promMovimiento
@@ -57,43 +57,47 @@ class Mapa:
     self.aldeas = {}
     self.portales = {}
     self.crearMapa()
-    
+
   def crearMapa(self):
-    self.crearPrado() 
-    self.crearOceano() 
-    self.crearRio()#self.montanaNieve() 
+    self.crearPrado()
+    self.crearOceano()
+    self.crearRio()#self.montanaNieve()
     self.crearBosque()
     self.crearMontana()
-    self.crearCiudad()#self.crearCamino()        
+    self.crearCiudad()#self.crearCamino()
     self.crearCastillo()
     self.crearTemplo()
     self.asignarReliquias()
     self.crearTaberna()
     self.crearMontanaSagrada()
-    
-    
+
+
   def ubicarAvatares(self,orden,jugadores):
     ubicados = 0
     nroCastillos = len(self.castillos)
     while(ubicados < len(orden) ):
       for c in range(0,nroCastillos):
-          if(random.randint(1,len(castillos))==1):
+          if(random.randint(1,len(self.castillos))==1):
             if self.castillos[c].propietario is None:
               castillo = self.castillos[c]
               nombreJugador = orden[ubicados]
               jugador = jugadores[nombreJugador]
-              jugador.avatar.asignarPrimerCastillo(castillo)              
+              jugador.avatar.asignarPrimerCastillo(castillo)
               ubicados +=1
               #Dibujar
-              self.mapa3[castillo.fila][castillo.columna] = traslacionAvatar[jugador.avatar.raza]
+              print "Ubica avatar en castillo"
+              print "fila:"+str(castillo.fila)+"  columna:"+str(castillo.columna)
+              print "raza:"+str(self.traslacionAvatar[jugador.avatar.raza])
+              self.mapa3[castillo.fila][castillo.columna] = self.traslacionAvatar[jugador.avatar.raza]
               self.visual3[castillo.fila][castillo.columna] = 0
-            
-    
-  
+              break
+
+
+
   def crearPrado(self):
     for i in range(0,self.nroFilas):
       for j in range(0,self.nroColumnas):
-        self.mapa1[i][j] = 1     
+        self.mapa1[i][j] = 1
         self.visual1[i][j] = random.randint(1,self.nroTile[1]) -1
 
   def getCentroOceano(self,indice,nroFilas,nroColumnas):
@@ -113,16 +117,16 @@ class Mapa:
       yCentro = int(round((nroFilas-1)/2))
     elif(indice == 4):
       xCentro = nroColumnas-1
-      yCentro = nroFilas-1  
+      yCentro = nroFilas-1
     elif(indice == 5):
       xCentro = int(round((nroColumnas-1)/2))
       yCentro = nroFilas-1
     elif(indice == 6):
       xCentro = 0
-      yCentro = nroFilas-1 
+      yCentro = nroFilas-1
     elif(indice == 7):
       xCentro = 0
-      yCentro = int(round((nroFilas-1)/2))     
+      yCentro = int(round((nroFilas-1)/2))
     elif(indice == 8):
       xCentro = int(round((nroColumnas-1)/2))
       yCentro = int(round((nroFilas-1)/2))
@@ -131,30 +135,30 @@ class Mapa:
       yCentro = int(round((nroFilas-1)/4))
     elif(indice == 10):
       xCentro = int(round(3*(nroColumnas-1)/4))
-      yCentro = int(round((nroFilas-1)/4))    
+      yCentro = int(round((nroFilas-1)/4))
     elif(indice == 11):
       xCentro = int(round(3*(nroColumnas-1)/4))
-      yCentro = int(round(3*(nroFilas-1)/4)) 
+      yCentro = int(round(3*(nroFilas-1)/4))
     elif(indice == 12):
       xCentro = int(round((nroColumnas-1)/4))
-      yCentro = int(round(3*(nroFilas-1)/4))      
+      yCentro = int(round(3*(nroFilas-1)/4))
     return xCentro,yCentro
-  
+
   def calcularDistancia(self,x0,y0,x1,y1):
     return math.sqrt(math.pow(x0-x1,2) + math.pow(y0-y1,2))
-  
+
   def gaussianPDF(self,mean, variance, x):
     standardDeviation = math.sqrt(variance)
     m = standardDeviation * math.sqrt(2 * math.pi)
     e = math.exp(-1*math.pow(x -mean, 2) / (2 * variance))
     return e / m
-    
-    
-  def crearOceano(self):    
+
+
+  def crearOceano(self):
     self.oceanoOcupado = np.zeros((13))
     for nroOceanos in range(0,self.nroOceanosMax):
       tamOceano = (self.data.promMovimiento) * random.randint(1, self.nroJugadores)
-      
+
       #Selecciona un oceano libre
       puedeContinuar = False
       oceano = -1
@@ -164,7 +168,7 @@ class Mapa:
         if(self.oceanoOcupado[oceano]==0):
           self.oceanoOcupado[oceano] = 1
           puedeContinuar = True
-      
+
       '''
           ---------
          |0   1   2|
@@ -175,7 +179,7 @@ class Mapa:
           ---------
       '''
       xCentro,yCentro = self.getCentroOceano(oceano,self.nroFilas,self.nroColumnas)
-      
+
       #Recorre todo el mapa y dibuja el oceano
       #Segun la distancia entre la casilla y el centro del oceano
       for i in range(0,self.nroFilas):
@@ -184,8 +188,8 @@ class Mapa:
           probabilidad = self.gaussianPDF(0, tamOceano, distancia)
           if( random.random() <= (probabilidad*12) ):
             self.mapa1[j][i] = 2
-            
-            
+
+
     #Aplicar factor morfologico closing
     #closing =  dilatacion -> erosion
     for i in range(0,3):
@@ -200,7 +204,7 @@ class Mapa:
       for j in range(0,self.nroColumnas):
         if self.mapa1[j][i] == 2:
           self.visual1[j][i] = random.randint(1,self.nroTile[2]) -1
-    
+
   def crearRio(self):
     for nroRios in range(0,self.nroRiosMax):
       for i in range(0,self.nroColumnas):
@@ -210,16 +214,16 @@ class Mapa:
             #Aparece montana nieve
             iMontana = i
             jMontana = j
-            
+
             #Encuentra el primer oceano ocupado
-            xCentro,yCentro,oceanoCercano,distancia = None,None,None,None            
+            xCentro,yCentro,oceanoCercano,distancia = None,None,None,None
             for t in range(0,12):
               if(self.oceanoOcupado[t] == 1):
                 oceanoCercano = t
                 xCentro,yCentro = self.getCentroOceano(t,self.nroFilas,self.nroColumnas)
                 distancia = self.calcularDistancia(i,j,xCentro,yCentro)
                 break
-                
+
             #Encuentra el oceano mas cercano
             for t in range(0,12):
               #No sea el mismo oceano
@@ -230,8 +234,8 @@ class Mapa:
                   distancia= distanciaNueva
                   oceanoCercano = t
                   xCentro = xCentroNuevo
-                  yCentro = yCentroNuevo  
-                  
+                  yCentro = yCentroNuevo
+
             #Traza la ruta al oceano mas cercano
             iAct = i
             jAct = j
@@ -255,7 +259,7 @@ class Mapa:
                 else:
                    #Derecha
                    jAct = jAct + 1
-                   
+
               #Erosiona montañas a su paso
               if self.mapa2[jAct][iAct] == 14:
                 self.mapa2[jAct][iAct] = 0
@@ -269,18 +273,18 @@ class Mapa:
     if(x>=0 and x< self.nroColumnas and y>=0 and y<self.nroFilas):
       return True
     return False
-  
+
   def puntoPerteneceCircunferencia(self,x,y,xCentro,yCentro,r):
     if(math.pow(x-xCentro,2) + math.pow(y-yCentro,2) <= math.pow(r,2)):
       return True
     return False
-    
-  def crearMontanaNieve(self,iM,jM):    
+
+  def crearMontanaNieve(self,iM,jM):
     self.mapa1[jM][iM] = 7 #nieve
     self.visual1[jM][iM] = random.randint(1,self.nroTile[7]) -1
     self.mapa2[jM][iM] = 14#montana-nieve
     self.visual2[jM][iM] = random.randint(1,self.nroTile[14]) -1
-    
+
     #Establecer radio del nevado
     radio = random.randint(1,int(self.nroJugadores/3))
     iIni = iM - radio
@@ -294,13 +298,13 @@ class Mapa:
             #No sobreescribir el rio o el oceano
             if(self.mapa1[j][i] == 1):
               self.mapa1[j][i] = 7 #Nieve
-              self.visual1[j][i] = random.randint(1,self.nroTile[7]) -1              
-            
+              self.visual1[j][i] = random.randint(1,self.nroTile[7]) -1
+
   def crearBosque(self):
     for i in range(0,self.nroColumnas):
       for j in range(0,self.nroFilas):
         probabilidad = random.randint(1,200*int(self.nroJugadores/4))
-        if(probabilidad <= 3 ):        
+        if(probabilidad <= 3 ):
           #Establecer radio del bosque
           radio = random.randint(1,int(self.nroJugadores/2))
           iIni = i - radio
@@ -311,7 +315,7 @@ class Mapa:
               #Determinar si el punto pertenece al mapa
               if(self.puntoPerteneceMapa(iAct,jAct)):
                 #Determinar si el punto pertenece a la circunferencia
-                if(self.puntoPerteneceCircunferencia(iAct,jAct,i,j,radio)):                
+                if(self.puntoPerteneceCircunferencia(iAct,jAct,i,j,radio)):
                   #Se puede establecer en prado o nieve sin montana
                   if(self.mapa1[jAct][iAct] == 1 or (self.mapa1[jAct][iAct] == 7 and self.mapa2[jAct][iAct] != 14) ):
                     #Si no hay arbol
@@ -319,7 +323,7 @@ class Mapa:
                     if(self.mapa2[jAct][iAct] != 5 or (self.mapa2[jAct][iAct] == 5 and random.randint(1,100)<=2)):
                       self.mapa2[jAct][iAct] = 5 #bosque
                       self.visual2[jAct][iAct] = tipoBosque
-          
+
   def crearMontana(self):
     for i in range(0,self.nroColumnas):
         for j in range(0,self.nroFilas):
@@ -347,22 +351,22 @@ class Mapa:
                     iAct -=1
                   else:
                     puedeDibujar = False
-                  
+
                   if puedeDibujar and self.puntoPerteneceMapa(iAct,jAct):
-                    #Si es prado o nieve                
+                    #Si es prado o nieve
                     if self.mapa1[jAct][iAct] == 1 or self.mapa1[jAct][iAct] == 7:
                       #Si no es una montana nevada
                       if self.mapa2[jAct][iAct] != 14:
                         self.mapa2[jAct][iAct] = 6
                         self.visual2[jAct][iAct] = random.randint(1,self.nroTile[6]) -1
               else:
-                terminaCamino = True                          
-                        
+                terminaCamino = True
+
   def crearCiudad(self):
     for i in range(0,self.nroColumnas):
         for j in range(0,self.nroFilas):
           probabilidad = random.randint(1,600*int(self.nroJugadores/4))
-          if(probabilidad <= 4 and (self.mapa1[j][i] == 1 or self.mapa1[j][i] == 7)):    
+          if(probabilidad <= 4 and (self.mapa1[j][i] == 1 or self.mapa1[j][i] == 7)):
             #Establecer radio de la ciudad
             radio = random.randint(1,round(self.nroJugadores/3))
             iIni = i - radio
@@ -391,7 +395,7 @@ class Mapa:
                 break
               else:
                 nroIntentosCamino += 1
-            
+
   def getPunto(self,i,j,direccion):
     if(direccion == 1):
       j -= 1 #arriba
@@ -400,24 +404,24 @@ class Mapa:
     elif(direccion == 3):
       j +=1 #abajo
     elif(direccion == 4):
-      i -=1 #Izquierda    
+      i -=1 #Izquierda
     return i,j
-  
-  def direccionOpuesta(self,direccion):    
+
+  def direccionOpuesta(self,direccion):
     if(direccion == 1): #arriba
-      return 3 
+      return 3
     elif(direccion == 2):#derecha
       return 4
     elif(direccion == 3):#abajo
       return 1
-    elif(direccion == 4):#Izquierda 
+    elif(direccion == 4):#Izquierda
       return 2
     return None
- 
-                    
-  def crearCamino(self,i,j): 
+
+
+  def crearCamino(self,i,j):
     direccion = random.randint(1,4)
-    longitudCamino = random.randint(10,30)    
+    longitudCamino = random.randint(10,30)
     for k in range(1,longitudCamino):
       if(direccion == 1):
         j -= 1 #arriba
@@ -426,11 +430,11 @@ class Mapa:
       elif(direccion == 3):
         j +=1 #abajo
       elif(direccion == 4):
-        i -=1 #Izquierda 
+        i -=1 #Izquierda
       if(self.puntoPerteneceMapa(i,j)):
         #Si es prado con una casa o nada encima
         if(self.mapa1[j][i] == 1 and (self.mapa2[j][i] == 0 or self.mapa2[j][i] == 11 ) ):
-          self.mapa1[j][i] = 4        
+          self.mapa1[j][i] = 4
           self.visual1[j][i] = random.randint(1,self.nroTile[4]) -1
         else:
           direccion = random.randint(1,4)
@@ -439,14 +443,14 @@ class Mapa:
     #Retoma la posibilidad de continuar el camino
     if(random.randint(1,100)<=80):
       self.crearCamino(i,j)
-      
+
   def crearCastillo(self):
-    nroMaxCastillos = self.nroJugadores * 2    
+    nroMaxCastillos = self.nroJugadores * 2
     while(len(self.castillos) < nroMaxCastillos):
       for i in range(0,self.nroColumnas):
           for j in range(0,self.nroFilas):
             probabilidad = random.randint(1,900*int(self.nroJugadores/4))
-            if( probabilidad <= 2 ): 
+            if( probabilidad <= 2 ):
               #Prado o nieve
               if( self.mapa1[j][i] == 1 or self.mapa1[j][i] == 7 ):
                 #No contiene nada o es un arbol
@@ -454,21 +458,21 @@ class Mapa:
                   self.mapa2[j][i] = 9
                   self.visual2[j][i] = random.randint(1,self.nroTile[9]) -1
                   self.castillos[len(self.castillos)] = Castillo(j,i)
-                  
+
   def crearTemplo(self):
-    nroTemplosMax = self.nroJugadores * 2       
+    nroTemplosMax = self.nroJugadores * 2
     while(len(self.templos) < nroTemplosMax):
       for i in range(0,self.nroColumnas):
           for j in range(0,self.nroFilas):
             probabilidad = random.randint(1,400*int(self.nroJugadores/4))
-            if( probabilidad <= 1 ): 
+            if( probabilidad <= 1 ):
               #Prado o nieve
               if( self.mapa1[j][i] == 1 or self.mapa1[j][i] == 7 ):
                 #No contiene nada o es un arbol
                 if( self.mapa2[j][i] == 0 or self.mapa2[j][i] == 5 ):
                   self.mapa2[j][i] = 12
                   self.visual2[j][i] = random.randint(1,self.nroTile[12]) -1
-                  self.templos[len(self.templos)] = Templo(j,i)     
+                  self.templos[len(self.templos)] = Templo(j,i)
 
   def asignarReliquias(self):
     nroReliquiasMax = self.nroJugadores
@@ -479,24 +483,24 @@ class Mapa:
           if(random.randint(1,100)<=25):
             nroReliquias += 1
             self.templos[i].reliquia = nroReliquias
-            
+
   def crearTaberna(self):
-    nroTabernasMax = self.nroJugadores       
+    nroTabernasMax = self.nroJugadores
     while(len(self.tabernas) < nroTabernasMax):
       for i in range(0,self.nroColumnas):
           for j in range(0,self.nroFilas):
             probabilidad = random.randint(1,400*int(self.nroJugadores/4))
-            if( probabilidad <= 2 ): 
+            if( probabilidad <= 2 ):
               #Prado o nieve
               if( self.mapa1[j][i] == 1 or self.mapa1[j][i] == 7 ):
                 #No contiene nada o es un arbol
                 if( self.mapa2[j][i] == 0 or self.mapa2[j][i] == 5 ):
                   self.mapa2[j][i] = 8
                   self.visual2[j][i] = random.randint(1,self.nroTile[8]) -1
-                  self.tabernas[len(self.tabernas)] = Taberna(j,i)    
-                  
+                  self.tabernas[len(self.tabernas)] = Taberna(j,i)
+
   def crearMontanaSagrada(self):
-    contador = 0      
+    contador = 0
     numeroCasillas = math.pow(self.nroJugadores,2)* math.pow(self.data.promMovimiento,2)
     while(contador < 1):
       for i in range(0,self.nroColumnas):
@@ -509,6 +513,5 @@ class Mapa:
                 #No contiene nada o es un arbol
                 if( self.mapa2[j][i] == 0 or self.mapa2[j][i] == 5 ):
                   self.mapa2[j][i] = 15
-                  self.visual2[j][i] = random.randint(1,self.nroTile[15]) -1 
+                  self.visual2[j][i] = random.randint(1,self.nroTile[15]) -1
                   contador += 1
-            
