@@ -18,6 +18,8 @@ var lastX;
 var lastY;
 var marginLeft = 0;
 var marginTop = 0;
+var maxDespX;
+var maxDespY;
 
 
 $( window ).on('load',function() {
@@ -35,7 +37,7 @@ function relojDibujar(){
    establecerListener();
    dibujarTablero(datos);
    dibujarAvatares(datos);
-   //centrarCamara(datos);
+   centrarCamara(datos);
 }
 
 function iniciarDatos(data){
@@ -59,6 +61,10 @@ function iniciarDatos(data){
    capa2.height = capa1.height;
    capa3.width = capa1.width;
    capa3.height = capa1.height;
+
+   contenedorCanvas = $('#contenedor-canvas')[0];
+   maxDespX = capa1.width - contenedorCanvas.clientWidth;
+   maxDespY = capa1.height- contenedorCanvas.clientHeight;
 }
 
 function dibujarTablero(data){
@@ -110,11 +116,44 @@ function dibujarAvatares(data){
 }
 
 function centrarCamara(data){
-   data.ubicacion;
+   var ubicacion = data.ubicacion;
+   //Ubicacion del personaje
+   var delta = (-1)*ubicacion['x']* tamCol;
+   var gamma = (-1)*ubicacion['y']* tamCol;
+   //Se ubica el personaje en la pantalla
+   delta += contenedorCanvas.clientWidth / 2;
+   gamma += contenedorCanvas.clientHeight / 2;
+
+   if( marginLeft + delta > 0 ){
+      //Se sale por la izquierda
+      marginLeft = 0;
+   }else if( marginLeft + delta < (-1)*(maxDespX) ){
+      //Se sale por la derecha
+      marginLeft = maxDespX;
+   }else{
+      marginLeft += delta;
+   }
+
+   if( marginTop + gamma > 0 ){
+      //Se sale por arriba
+      marginTop = 0;
+   }else if( marginTop + gamma < (-1)*(maxDespY) ){
+      //Se sale por abajo
+      marginTop = maxDespY;
+   }else{
+      marginTop += gamma;
+   }
+
+   capa1.style.marginLeft = marginLeft + "px";
+   capa2.style.marginLeft = marginLeft + "px";
+   capa3.style.marginLeft = marginLeft + "px";
+
+   capa1.style.marginTop = marginTop + "px";
+   capa2.style.marginTop = marginTop + "px";
+   capa3.style.marginTop = marginTop + "px";
+
 }
 function establecerListener(){
-
-   contenedorCanvas = $('#contenedor-canvas')[0];
 
    function presionaMouse(e){
       var evt = e;
@@ -137,9 +176,6 @@ function establecerListener(){
 
          lastX = evt.clientX;
          lastY = evt.clientY;
-
-         var maxDespX = capa1.width - contenedorCanvas.clientWidth;
-         var maxDespY = capa1.height- contenedorCanvas.clientHeight;
 
          if( ( marginLeft + delta <= 0 ) && ( marginLeft + delta >= (-1)*(maxDespX) ) ){
             marginLeft += delta;

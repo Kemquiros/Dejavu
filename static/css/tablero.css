@@ -49,10 +49,13 @@ li .navbar-text:last-child{
 }
 #layer1{
    position: absolute;
+   z-index: 0;
 }
 #layer2{
    position: absolute;
+   z-index: 1;
 }
 #layer3{
-   position: relative;;
+   position: relative;
+   z-index: 2;
 }

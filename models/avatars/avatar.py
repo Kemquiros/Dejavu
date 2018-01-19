@@ -3,6 +3,7 @@ from equipo import Equipo
 class Avatar(object):
 
     def __init__(self):
+        self.imagen = None
         self.jugador = None
         self.raza = None
         self.ataque = None
@@ -26,6 +27,7 @@ class Avatar(object):
 
 
     def init2(self, molde):
+        self.imagen = molde["imagen"]
         self.raza = molde["nombre"]
         self.ataque = molde["ataque"]
         self.destreza = molde["destreza"]
@@ -38,6 +40,7 @@ class Avatar(object):
 
     def toJSON(self):
         return {
+        "imagen" : self.imagen,
         "raza": self.raza,
         "ataque" : self.ataque,
         "destreza" : self.destreza,

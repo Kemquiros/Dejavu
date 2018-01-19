@@ -2,6 +2,7 @@
 
 def getVampiro():
   vampiro = {
+    "imagen" : "static/img/tile/Vampiro.png",
     "nombre": "Vampiro",
     "ataque": 3,
     "destreza": 4,
@@ -15,6 +16,7 @@ def getVampiro():
 
 def getHombreLobo():
   hombreL = {
+    "imagen" : "static/img/tile/Hombre_Lobo.png",
     "nombre": "Hombre Lobo",
     "ataque": 2,
     "destreza": 6,
@@ -28,6 +30,7 @@ def getHombreLobo():
 
 def getDemiurgo():
   personaje = {
+    "imagen" : "static/img/tile/selection/Demiurgo.png",
     "nombre": "Demiurgo",
     "ataque": 4,
     "destreza": 3,
@@ -41,6 +44,7 @@ def getDemiurgo():
 
 def getCazador():
   personaje = {
+    "imagen" : "static/img/tile/selection/Cazador.png",
     "nombre": "Cazador",
     "ataque": 6,
     "destreza": 2,
@@ -54,6 +58,7 @@ def getCazador():
 
 def getHechizero():
   personaje = {
+    "imagen" : "static/img/tile/selection/Hechizero.png",
     "nombre": "Hechizero",
     "ataque": 4,
     "destreza": 3,
@@ -68,6 +73,7 @@ def getHechizero():
 
 def getNigromante():
   personaje = {
+    "imagen" : "static/img/tile/Nigromante.png",
     "nombre": "Nigromante",
     "ataque": 3,
     "destreza": 4,
