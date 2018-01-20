@@ -217,10 +217,11 @@ def get_board():
                     return render_template('board.html',
                     jugador=jugador.toJSON(),
                     turno=partida.turno,
-                    tiempo=partida.getTime(),
+                    tiempoPartida=partida.getTime(),
+                    tiempoTurno=partida.getTimeTurno(),
                     ordenTurno=partida.ordenTurno
                     )
-    return None
+    return redirect("/", code=302)
 
 @APP.route('/mapa', methods=['GET'])
 def get_mapa():
@@ -290,6 +291,21 @@ def get_jugador_avatar(id_orden):
                 })
     return None
 
+@APP.route('/juego/actualizar', methods=['GET'])
+def get_actualizar():
+    if 'token' in session and 'partida' in session:
+        jugador = DEJAVU.getJugador(session['token'])
+        if not jugador is None:
+            partida = jugador.partida
+            return jsonify({
+                    "tiempoPartida" : partida.getTime(),
+                    "tiempoTurno" : partida.getTimeTurno(),
+                    "turno" : partida.turno,
+                    "turnoJugador" : partida.jugadorActual
+                })
+        else:
+            redirect("/games", code=302)
+    return None
 
 @APP.errorhandler(404)
 def page_not_found(error):

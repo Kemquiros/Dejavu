@@ -28,6 +28,7 @@ $( window ).on('load',function() {
       datos = data;
       images = cargarImagenes();
       setTimeout(relojDibujar, 1500);
+      setInterval(consultarActualizacion,1000);
   });
   //Establecer timer para actualizar el tiempo
 });

@@ -7,6 +7,8 @@ class Partida:
   def __init__(self,nroJugadores,master,name):
     self.inicioPartida = time.time()
     self.finalPartida = None
+    self.inicioTurno = None
+    self.finalTurno = None
     self.creador = master
     self.nombre = name
     self.numeroJugadoresMax = nroJugadores
@@ -31,18 +33,22 @@ class Partida:
     llaves = self.jugadores.keys()
     while len(self.ordenTurno) < len(llaves):
      nuevo = random.randint(0, len(llaves)-1)
-     if not llaves[nuevo] in self.ordenTurno:
-       self.ordenTurno[len(self.ordenTurno)] = {
-                              "nombre" : self.jugadores[llaves[nuevo]].nombre,
-                              "icono" : self.jugadores[llaves[nuevo]].icono
-               }
+     dict_temp = {
+             "nombre" : self.jugadores[llaves[nuevo]].nombre,
+             "icono" : self.jugadores[llaves[nuevo]].icono
+         }
+     if not dict_temp in self.ordenTurno.values():
+       self.ordenTurno[len(self.ordenTurno)] = dict_temp
        self.jugadores[llaves[nuevo]].turno = len(self.ordenTurno) - 1
     #Establece a la primera persona
     self.jugadorActual = 0
     self.nuevoTurno()
 
   def nuevoTurno(self):
+    self.finalTurno = time.time() + 30
     self.turno = self.turno + 1
+
+
 
   def siguienteJugador(self):
     self.jugadorActual += 1 % self.numeroJugadores
@@ -85,3 +91,6 @@ class Partida:
    m, s = divmod(seconds, 60)
    h, m = divmod(m, 60)
    return "%d:%02d:%02d" % (h, m, s)
+
+  def getTimeTurno(self):
+    return "%02d" % (self.finalTurno - time.time())

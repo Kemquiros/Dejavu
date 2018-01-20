@@ -1,4 +1,5 @@
 var jugador = null;
+var turnoJugador;
 var equipo;
 var inventario;
 
@@ -132,4 +133,14 @@ function actualizarAtributos(data,opt) {
    $( ".bar-movimiento" ).text(data.movimiento);
 }
 function consultarActualizacion() {
+   jQuery.get('/juego/actualizar', function(data, status){
+      if(data === null){
+         window.location.replace("/");
+      }else{
+         $( "#tiempo-turno" ).text("Tiempo Partida: "+data.tiempoTurno);
+         $( "#tiempo-partida" ).text("Tiempo Turno:"+data.tiempoPartida);
+         $( "#turno" ).text("Turno #"+data.turno);
+         turnoJugador = data.turnoJugador;
+      }
+   });
 }
