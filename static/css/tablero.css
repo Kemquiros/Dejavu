@@ -59,6 +59,7 @@ li .navbar-text:last-child{
    position: relative;
    z-index: 2;
 }
+
 #vista-equipo{
    display: none;
 }
@@ -73,4 +74,17 @@ li .navbar-text:last-child{
 }
 #vista-estado{
    display: none;
+}
+.panel-izquierda{
+   height: 80vh;
+   overflow: auto;
+}
+.fila-turno{
+   width: 100vw;
+   height: 10vh;
+   overflow-x: auto;
+}
+.icono-turno{
+   height: 9vh;
+   cursor: pointer;
 }

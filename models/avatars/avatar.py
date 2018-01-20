@@ -59,8 +59,8 @@ class Avatar(object):
         "nroReliquias" : self.nroReliquias,
         "reliquias" : self.reliquias,
         "nroPropiedades" : self.nroPropiedades,
-        "propiedades" : self.propiedades
-        }
+        "propiedades" : self.propiedadesToJSON()
+            }
 
     def setJugador(self, jugador):
         self.jugador = jugador
@@ -73,3 +73,19 @@ class Avatar(object):
     def agregarCastillo(self, castillo):
         castillo.propietario = self.jugador
         self.propiedades["castillos"].append(castillo)
+        self.contarPropiedades()
+
+    def contarPropiedades(self):
+        self.nroPropiedades = len(self.propiedades["castillos"]) + len(self.propiedades["aldeas"])
+
+    def propiedadesToJSON(self):
+        castillos = []
+        aldeas = []
+        for c in self.propiedades["castillos"]:
+            castillos.append(c.toJSON())
+        for a in self.propiedades["aldeas"]:
+            castillos.append(a.toJSON())
+        return {
+                "castillos" : castillos,
+                "aldeas" : aldeas
+            }

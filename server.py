@@ -212,11 +212,13 @@ def get_board():
         if not partida is None:
             if session['name'] in partida.jugadores:
                 jugador = partida.getJugador(session['name'])
+                print partida.ordenTurno
                 if not jugador is None:
                     return render_template('board.html',
                     jugador=jugador.toJSON(),
                     turno=partida.turno,
-                    tiempo=partida.getTime()
+                    tiempo=partida.getTime(),
+                    ordenTurno=partida.ordenTurno
                     )
     return None
 
@@ -246,6 +248,48 @@ def get_mapa():
             }
             )
     return None
+
+'''
+Se crea un API para proveer
+comunicación al cliente con el servidor
+'''
+
+@APP.route('/juego/jugador', methods=['GET'])
+def get_jugador():
+    if 'token' in session and 'partida' in session:
+        jugador = DEJAVU.getJugador(session['token'])
+        partida = jugador.partida
+        return jsonify(jugador.toJSON())
+    return None
+
+@APP.route('/juego/avatar/<int:id_orden>', methods=['GET'])
+def get_jugador_avatar(id_orden):
+    if 'token' in session and 'partida' in session:
+        jugador = DEJAVU.getJugador(session['token'])
+        partida = jugador.partida
+        if (not jugador is None) and (not partida is None):
+            otro_jugador_nombre = partida.ordenTurno[id_orden]['nombre']
+            otro_jugador = partida.jugadores[otro_jugador_nombre]
+            avatar = otro_jugador.avatar
+            return jsonify({
+                    "nombre" : otro_jugador.nombre,
+                    "raza" : avatar.raza,
+                    "imagen" : avatar.imagen,
+                    "ataque" : avatar.ataque,
+                    "destreza" : avatar.destreza,
+                    "dano" : avatar.dano,
+                    "defensa" : avatar.defensa,
+                    "vidaMax" : avatar.vidaMax,
+                    "vida" : avatar.vida,
+                    "movimientoMax" : avatar.movimientoMax,
+                    "movimiento" : avatar.movimiento,
+                    "reliquias" : avatar.nroReliquias,
+                    "monedas" : avatar.monedas,
+                    "herramientas" : avatar.herramientas,
+                    "propiedades" : avatar.nroPropiedades
+                })
+    return None
+
 
 @APP.errorhandler(404)
 def page_not_found(error):

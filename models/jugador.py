@@ -6,6 +6,7 @@ class Jugador:
     self.token = tk
     self.avatar = None
     self.partida = None
+    self.turno = None
 
   def setAvatar(self,avt):
     self.avatar = avt
@@ -16,5 +17,6 @@ class Jugador:
     return {
       "nombre" : self.nombre,
       "icono" : self.icono,
+      "turno" : self.turno,
       "avatar" : self.avatar.toJSON()
     }

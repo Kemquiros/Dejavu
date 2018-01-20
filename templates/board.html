@@ -22,7 +22,7 @@
     <!-- Fila del navbar -->
 
       <nav class="navbar navbar-toggleable-md fixed-top navbar-inverse bg-inverse">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="#" onclick="verMiAvatar()">
           <img src="/static/img/ico/{{ jugador.icono }}.png" width="30" height="30" class="d-inline-block align-top" alt="">
         </a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -79,10 +79,10 @@
 
 
     <!-- Fila del contenido-->
-    <div class="row" style="text-align:center;margin-top: 10vh;">
+    <div class="row" style="text-align:center;margin-top: 8vh;">
 
       <!-- Izquierda -->
-      <div class="col-lg-4 panel">
+      <div class="col-lg-4 panel panel-izquierda">
 
         <!-- Fila superior  -->
         <div class="row">
@@ -112,7 +112,7 @@
                      <div class="col-lg-12">
                         <span class="bg-inverse text-danger">Ataque</span><br>
                         <div class="progress">
-                           <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar"
+                           <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated bar-ataque" role="progressbar"
                            aria-valuenow="{{ jugador.avatar.ataque }}" aria-valuemin="0" aria-valuemax="6" style="width:{{ (jugador.avatar.ataque/6)*100 |int }}%">
                              {{ jugador.avatar.ataque }}
                            </div>
@@ -120,7 +120,7 @@
 
                          <span class="bg-inverse text-danger">Destreza</span><br>
                          <div class="progress">
-                           <div class="progress-bar progress-bar-striped bg-info progress-bar-animated"
+                           <div class="progress-bar progress-bar-striped bg-info progress-bar-animated bar-destreza"
                            role="progressbar" aria-valuenow="{{ jugador.avatar.destreza }}"
                            aria-valuemin="0" aria-valuemax="6" style="width:{{ (jugador.avatar.destreza/6)*100 |int }}%">
                              {{ jugador.avatar.destreza }}
@@ -129,7 +129,7 @@
 
                          <span class="bg-inverse text-danger">Daño</span><br>
                          <div class="progress">
-                           <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar"
+                           <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated bar-dano" role="progressbar"
               aria-valuenow="{{ jugador.avatar.dano }}" aria-valuemin="0" aria-valuemax="6" style="width:{{ (jugador.avatar.dano/6)*100 |int }}%">
                              {{ jugador.avatar.dano }}
                            </div>
@@ -137,7 +137,7 @@
 
                          <span class="bg-inverse text-danger">Defensa</span><br>
                          <div class="progress">
-                           <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar"
+                           <div class="progress-bar progress-bar-striped bg-success progress-bar-animated bar-defensa" role="progressbar"
               aria-valuenow="{{ jugador.avatar.defensa }}" aria-valuemin="0" aria-valuemax="6" style="width:{{ (jugador.avatar.defensa/6)*100 |int }}%">
                              {{ jugador.avatar.defensa }}
                            </div>
@@ -145,7 +145,7 @@
 
                          <span class="bg-inverse text-danger">Vida</span><br>
                          <div class="progress">
-                           <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar"
+                           <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated bar-vida" role="progressbar"
               aria-valuenow="{{ jugador.avatar.vida }}" aria-valuemin="0" aria-valuemax="{{ jugador.avatar.vidaMax*7 }}" style="width:{{ (jugador.avatar.vida/jugador.avatar.vidaMax)*100 |int }}%">
                              {{ jugador.avatar.vida*7 }}
                            </div>
@@ -153,7 +153,7 @@
 
                          <span class="bg-inverse text-danger">Movimiento</span><br>
                          <div class="progress">
-                           <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                           <div class="progress-bar progress-bar-striped progress-bar-animated bar-movimiento" role="progressbar"
               aria-valuenow="{{ jugador.avatar.movimiento }}" aria-valuemin="0" aria-valuemax="{{ jugador.avatar.movimientoMax }}" style="width:{{ (jugador.avatar.movimiento/jugador.avatar.movimientoMax)*100 |int }}%">
                              {{ jugador.avatar.movimiento }}
                            </div>
@@ -216,6 +216,42 @@
             <!-- Jugar -->
             <div id="vista-jugar" class="row">
                <div class="col-lg-12">
+
+               <!-- Estado del movimiento -->
+               <div class="row">
+                  <div class="col-lg-12">
+                     <table class="table table-hover table-inverse">
+                       <thead>
+                          <tr>
+                             <th>
+                                Movimiento
+                             </th>
+                             <th>
+                                Dado
+                             </th>
+                          </tr>
+                       </thead>
+                       <tbody>
+                          <tr>
+                             <td>
+                                <div class="progress">
+                                 <div class="progress-bar progress-bar-striped progress-bar-animated bar-movimiento" role="progressbar"
+                                 aria-valuenow="{{ jugador.avatar.movimiento }}" aria-valuemin="0"
+                                 aria-valuemax="{{ jugador.avatar.movimientoMax }}"
+                                 style="width:{{ (jugador.avatar.movimiento/jugador.avatar.movimientoMax)*100 |int }}%">
+                                   {{ jugador.avatar.movimiento }}
+                                 </div>
+                              </div>
+                             </td>
+                             <td id="dado-movimiento">
+                                4
+                             </td>
+                          </tr>
+                       </tbody>
+                    </table>
+                  </div>
+               </div> <!-- Fin Estado del movimiento -->
+
                 <!-- Botones movimiento -->
                 <div class="row">
 
@@ -225,38 +261,38 @@
                      <!-- Fila 1 -->
                      <div class="row fila-mov">
                        <div class="col-lg-4 col-mov">
-                         <button type="button" class="btn btn-outline-warning btn-mover">&#8662;</button>
+                         <button id="btn-m1" type="button" class="btn btn-outline-warning btn-mover">&#8662;</button>
                        </div>
                        <div class="col-lg-4 col-mov">
-                         <button type="button" class="btn btn-outline-warning btn-mover">&#8657;</button>
+                         <button id="btn-m2" type="button" class="btn btn-outline-warning btn-mover">&#8657;</button>
                        </div>
                        <div class="col-lg-4 col-mov">
-                         <button type="button" class="btn btn-outline-warning btn-mover">&#8663;</button>
+                         <button id="btn-m3" type="button" class="btn btn-outline-warning btn-mover">&#8663;</button>
                        </div>
                      </div>
 
                      <!-- Fila 2 -->
                      <div class="row">
                        <div class="col-lg-4 col-mov">
-                         <button type="button" class="btn btn-outline-warning btn-mover">&#8656;</button>
+                         <button id="btn-m4" type="button" class="btn btn-outline-warning btn-mover">&#8656;</button>
                        </div>
                        <div class="col-lg-4 col-mov">
                        </div>
                        <div class="col-lg-4 col-mov">
-                         <button type="button" class="btn btn-outline-warning btn-mover">&#8658;</button>
+                         <button id="btn-m5" type="button" class="btn btn-outline-warning btn-mover">&#8658;</button>
                        </div>
                      </div>
 
                      <!-- Fila 3 -->
                      <div class="row">
                        <div class="col-lg-4 col-mov">
-                         <button type="button" class="btn btn-outline-warning btn-mover">&#8665;</button>
+                         <button id="btn-m6" type="button" class="btn btn-outline-warning btn-mover">&#8665;</button>
                        </div>
                        <div class="col-lg-4 col-mov">
-                         <button type="button" class="btn btn-outline-warning btn-mover">&#8659;</button>
+                         <button id="btn-m7" type="button" class="btn btn-outline-warning btn-mover">&#8659;</button>
                        </div>
                        <div class="col-lg-4 col-mov">
-                         <button type="button" class="btn btn-outline-warning btn-mover">&#8664;</button>
+                         <button id="btn-m8" type="button" class="btn btn-outline-warning btn-mover">&#8664;</button>
                        </div>
                      </div>
 
@@ -264,6 +300,71 @@
                    <div class="col-lg-2"></div>
 
                   </div> <!-- Fin Botones movimiento -->
+
+                  <!-- Tabla accion lugar -->
+                  <div class="row">
+                     <div class="col-lg-12">
+                        <table id="tabla-accion-lugar" class="table table-hover table-inverse">
+                          <thead>
+                             <tr>
+                                <th>
+                                   Descripción
+                                </th>
+                                <th>
+                                   Acción
+                                </th>
+                             </tr>
+                          </thead>
+                          <tbody>
+                             <tr>
+                                <td>
+                                   El mercader del lugar está interesado en ti
+                                </td>
+                                <td>
+                                   <button type="button" class="btn btn-outline-primary btn-mover">Negociar</button>
+                                </td>
+                             </tr>
+                          </tbody>
+                       </table>
+                     </div>
+                  </div><!-- Fin Tabla accion lugar -->
+
+                  <!-- Tabla ocupante lugar -->
+                  <div class="row">
+                     <div class="col-lg-12">
+                        <table id="tabla-ocupante-lugar" class="table table-hover table-inverse">
+                          <thead>
+                             <tr>
+                                <th>
+                                   Ocupante
+                                </th>
+                                <th>
+                                   Acción
+                                </th>
+                             </tr>
+                          </thead>
+                          <tbody>
+                             <tr>
+                                <td>
+                                   <button type="button" class="btn btn-outline-danger btn-mover">Aztaroth</button>
+                                </td>
+                                <td>
+                                   <button type="button" class="btn btn-outline-primary btn-mover">Negociar</button>
+                                   <button type="button" class="btn btn-outline-primary btn-mover">Atacar</button>
+                                </td>
+                             </tr>
+                             <tr>
+                                <td>
+                                   <button type="button" class="btn btn-outline-danger btn-mover">Wyrm</button>
+                                </td>
+                                <td>
+                                   <button type="button" class="btn btn-outline-primary btn-mover">Atacar</button>
+                                </td>
+                             </tr>
+                          </tbody>
+                       </table>
+                     </div>
+                  </div><!-- Fin Tabla ocupante lugar -->
 
                </div>
              </div> <!-- Fin Jugar -->
@@ -293,7 +394,20 @@
       <div class="col-lg-4 panel">
       </div>
       -->
-    </div>
+   </div> <!-- Fin Fila del contenido-->
+
+   <!-- Fila Turno-->
+   <div class="row fila-turno">
+      <div class="col-lg-12 ">
+         {% for key, elemento in ordenTurno.iteritems() %}
+            <img id="icono-{{ key }}"
+            src="/static/img/ico/{{ elemento["icono"] }}.png"
+            class="d-inline-block align-top icono-turno"
+            title="{{ elemento["nombre"] }}"
+            onclick="verAvatar(this)">
+         {% endfor %}
+      </div>
+   </div> <!-- Fin Fila Turno-->
 
   </body>
 </html>

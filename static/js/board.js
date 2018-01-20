@@ -33,7 +33,7 @@ $( window ).on('load',function() {
 });
 
 function relojDibujar(){
-   verAvatar();
+   verMiAvatar();
    iniciarDatos();
    establecerListener();
    dibujarTablero();

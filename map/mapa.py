@@ -80,8 +80,8 @@ class Mapa:
           if(random.randint(1,len(self.castillos))==1):
             if self.castillos[c].propietario is None:
               castillo = self.castillos[c]
-              nombreJugador = orden[ubicados]
-              jugador = jugadores[nombreJugador]
+              jugador_orden = orden[ubicados]
+              jugador = jugadores[jugador_orden["nombre"]]
               jugador.avatar.asignarPrimerCastillo(castillo)
               ubicados +=1
               #Dibujar
