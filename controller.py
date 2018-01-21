@@ -64,10 +64,10 @@ class Controller:
       if not jugador is None:
         if not jugador.partida is None:
           partida = jugador.partida
-          if partida.numeroJugadores == 1:
-                self.cancel_game()
-          partida_nombre = partida.nombre
           partida.delJugador(jugador.nombre)
+          if partida.numeroJugadores == 0 and partida.estado == "activa":
+            partida.estado = "terminada"
+            self.dejavu.delPartida(jugador.partida.nombre)
           jugador.partida = None
       if 'partida' in session:
         del session['partida']

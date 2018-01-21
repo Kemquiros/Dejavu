@@ -177,8 +177,8 @@ def leave_game():
     '''Función utilizada para dejar la partida
     antes de que comience '''
     if 'token' in session:
-        if not CONTROLLER.is_master():
-            CONTROLLER.leave_game()
+        #if not CONTROLLER.is_master():
+        CONTROLLER.leave_game()
     return redirect("/games", code=302)
 
 @APP.route('/cancel-game', methods=['GET'])

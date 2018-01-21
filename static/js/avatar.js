@@ -137,8 +137,8 @@ function consultarActualizacion() {
       if(data === null){
          window.location.replace("/");
       }else{
-         $( "#tiempo-turno" ).text("Tiempo Partida: "+data.tiempoTurno);
-         $( "#tiempo-partida" ).text("Tiempo Turno:"+data.tiempoPartida);
+         $( "#tiempo-turno" ).text("Tiempo Turno: "+data.tiempoTurno);
+         $( "#tiempo-partida" ).text("Tiempo Partida:"+data.tiempoPartida);
          $( "#turno" ).text("Turno #"+data.turno);
          turnoJugador = data.turnoJugador;
       }
