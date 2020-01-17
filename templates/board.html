@@ -404,7 +404,7 @@
    <!-- Fila Turno-->
    <div class="row fila-turno">
       <div class="col-lg-12 ">
-         {% for key, elemento in ordenTurno.iteritems() %}
+         {% for key, elemento in ordenTurno.items() %}
             <img id="icono-{{ key }}"
             src="/static/img/ico/{{ elemento["icono"] }}.png"
             class="d-inline-block align-top icono-turno"

@@ -3,11 +3,11 @@ from __future__ import division
 import numpy as np
 import random
 import math
-from morfologia import dilate, erode
-from data import DataMap
-from castillo import Castillo
-from templo import Templo
-from taberna import Taberna
+from .morfologia import dilate, erode
+from .data import DataMap
+from .castillo import Castillo
+from .templo import Templo
+from .taberna import Taberna
 
 class Mapa:
 
@@ -85,9 +85,9 @@ class Mapa:
               jugador.avatar.asignarPrimerCastillo(castillo)
               ubicados +=1
               #Dibujar
-              print "Ubica avatar en castillo"
-              print "fila:"+str(castillo.fila)+"  columna:"+str(castillo.columna)
-              print "raza:"+str(self.traslacionAvatar[jugador.avatar.raza])
+              print ("Ubica avatar en castillo")
+              print ("fila:"+str(castillo.fila)+"  columna:"+str(castillo.columna))
+              print ("raza:"+str(self.traslacionAvatar[jugador.avatar.raza]))
               self.mapa3[castillo.fila][castillo.columna] = self.traslacionAvatar[jugador.avatar.raza]
               self.visual3[castillo.fila][castillo.columna] = 0
               break

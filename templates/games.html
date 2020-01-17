@@ -80,7 +80,7 @@
                 </tr>
               </thead>
               <tbody>
-                {% for key, partida in partidas.iteritems() %}
+                {% for key, partida in partidas.items() %}
                 <tr>
                   <td> {{ partida.getTime() }} </td>
                   <td> {{ partida.creador.nombre }} </td>

@@ -30,7 +30,7 @@ class Partida:
 
   def establecerOrdenTurno(self):
     self.ordenTurno = {}
-    llaves = self.jugadores.keys()
+    llaves = list(self.jugadores.keys())
     while len(self.ordenTurno) < len(llaves):
      nuevo = random.randint(0, len(llaves)-1)
      dict_temp = {
@@ -45,8 +45,11 @@ class Partida:
     self.nuevoTurno()
 
   def nuevoTurno(self):
+    print (">>> Nuevo Turno <<<")
     self.finalTurno = time.time() + 30
     self.turno = self.turno + 1
+    print ("self.finalTurno -> ", str(self.finalTurno))
+    print ("self.turno -> ", str(self.turno))
 
 
 
@@ -93,4 +96,7 @@ class Partida:
    return "%d:%02d:%02d" % (h, m, s)
 
   def getTimeTurno(self):
+    print (">>> getTimeTurno <<<")
+    print (self.finalTurno)
+
     return "%02d" % (self.finalTurno - time.time())

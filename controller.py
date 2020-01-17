@@ -2,6 +2,7 @@
 from flask import session
 import hashlib
 import re
+import random
 from models.dejavu import Dejavu
 from models.jugador import Jugador
 from models.partida import Partida
@@ -21,7 +22,7 @@ class Controller:
     if request.method == 'POST':
       name = request.form['nombre']
       icon = request.form['ico']
-      token = hashlib.sha256(name).hexdigest()
+      token = random.randint(1, 2400)#hashlib.sha256(name).hexdigest()
 
       #El usuario es nuevo en el sistema
       if 'token' in self.dejavu.jugadores:
@@ -34,6 +35,8 @@ class Controller:
         session['token'] = token
         session['name'] = name
         session['icon'] = icon
+        print ('>>>  Nueva Sesion <<<')
+        print (session)
         return True
 
   def logout(self):
@@ -86,6 +89,9 @@ class Controller:
     if 'token' in session and 'partida' in session:
       partida = self.dejavu.getPartida(session['partida'])
       jugador = self.dejavu.getJugador(session['token'])
+      print (">>> Unir Partida <<<")
+      print ("partida -> ",partida )
+      print ("jugador -> ",jugador )
       if (not partida is None) and (not jugador is None):
         #Crear avatar
         idRaza = request.form['raza']

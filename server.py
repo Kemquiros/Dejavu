@@ -212,7 +212,7 @@ def get_board():
         if not partida is None:
             if session['name'] in partida.jugadores:
                 jugador = partida.getJugador(session['name'])
-                print partida.ordenTurno
+                print (partida.ordenTurno)
                 if not jugador is None:
                     return render_template('board.html',
                     jugador=jugador.toJSON(),

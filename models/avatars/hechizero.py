@@ -1,5 +1,5 @@
-import raza
-from avatar import Avatar
+import models.avatars.raza as raza
+from .avatar import Avatar
 
 class Hechizero(Avatar):
 

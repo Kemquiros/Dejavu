@@ -1,4 +1,4 @@
-from equipo import Equipo
+from .equipo import Equipo
 
 class Avatar(object):
 

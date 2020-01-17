@@ -1,4 +1,5 @@
-from avatars import raza
+#from avatars import raza
+import models.avatars.raza as raza
 
 class Dejavu:
   nroPartidas = 0
